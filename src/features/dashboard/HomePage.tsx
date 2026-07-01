@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { ActivityFeed } from '../activity/ActivityFeed'
 import { CapturePanel } from '../capture/CapturePanel'
 import { InboxList } from '../inbox/InboxList'
+import { ProjectActions } from '../projects/ProjectActions'
 import { ProjectContext } from '../projects/ProjectContext'
 import { ProjectSwitcher } from '../projects/ProjectSwitcher'
 import { projects } from '../../data/projects'
@@ -44,6 +45,7 @@ export function HomePage() {
 
       <ProjectSwitcher activeProjectId={activeProjectId} onChange={setActiveProjectId} />
       <ProjectContext items={captures} project={activeProject} />
+      <ProjectActions items={captures} project={activeProject} />
       <CapturePanel activeProjectId={activeProjectId} onCapture={handleCapture} />
       <InboxList items={activeProjectCaptures} />
       <ActivityFeed items={captures} />
