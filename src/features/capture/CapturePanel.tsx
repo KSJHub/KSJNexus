@@ -4,14 +4,14 @@ import { projects } from '../../data/projects'
 import type { CaptureItem, CaptureKind } from '../../types/capture'
 
 type CapturePanelProps = {
+  activeProjectId: string
   onCapture: (item: CaptureItem) => void
 }
 
 const captureKinds: CaptureKind[] = ['task', 'note', 'idea', 'reminder']
 
-export function CapturePanel({ onCapture }: CapturePanelProps) {
+export function CapturePanel({ activeProjectId, onCapture }: CapturePanelProps) {
   const [text, setText] = useState('')
-  const [projectId, setProjectId] = useState('ksj-nexus')
   const [kind, setKind] = useState<CaptureKind>('note')
 
   const handleSave = () => {
@@ -21,12 +21,12 @@ export function CapturePanel({ onCapture }: CapturePanelProps) {
       return
     }
 
-    const project = projects.find((item) => item.id === projectId)
+    const project = projects.find((item) => item.id === activeProjectId)
 
     onCapture({
       id: crypto.randomUUID(),
       text: trimmed,
-      projectId,
+      projectId: activeProjectId,
       projectName: project?.name ?? 'KSJ Nexus',
       kind,
       createdAt: new Date().toISOString(),
@@ -61,16 +61,9 @@ export function CapturePanel({ onCapture }: CapturePanelProps) {
         ))}
       </div>
       <div className="capture-row">
-        <select
-          aria-label="Select project"
-          onChange={(event) => setProjectId(event.target.value)}
-          value={projectId}
-        >
-          <option value="ksj-nexus">KSJ Nexus</option>
-          {projects.map((project) => (
-            <option value={project.id} key={project.id}>{project.name}</option>
-          ))}
-        </select>
+        <span className="active-project-label">
+          {projects.find((project) => project.id === activeProjectId)?.name ?? 'KSJ Nexus'}
+        </span>
         <button onClick={handleSave} type="button"><Send size={14} /> Save</button>
       </div>
     </section>
