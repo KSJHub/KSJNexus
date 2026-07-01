@@ -28,7 +28,7 @@ A larger workspace can come later, but the compact notepad companion is the core
 
 ## Current Focus
 
-Version `0.4.0` is the capture engine stage.
+Version `0.5.0` is the project context engine stage.
 
 It includes:
 
@@ -36,12 +36,13 @@ It includes:
 - Electron desktop shell
 - ESLint
 - Personal-size notepad window
-- Hidden default Electron menu
 - Real quick capture flow
-- Project picker foundation
-- Item type selector
+- Project switcher
+- Project context panel
+- Project item statistics
 - Local browser storage for captures
-- Live inbox list
+- Project-filtered inbox
+- Recent activity feed
 - GitHub Pages auto-deploy workflow
 
 ## Source Structure
@@ -55,9 +56,11 @@ src/
 │   └── layout/
 ├── data/
 ├── features/
+│   ├── activity/
 │   ├── capture/
 │   ├── dashboard/
 │   ├── inbox/
+│   ├── projects/
 │   └── tasks/
 ├── services/
 │   └── storage/
@@ -73,10 +76,10 @@ src/
 1. Personal-size notepad layout
 2. Native Electron polish
 3. Quick note capture
-4. Project picker
-5. Local saving
-6. Inbox and recent activity
-7. GitHub/project sync
+4. Project context engine
+5. VS Code workspace launcher
+6. GitHub/project sync
+7. ChatGPT project update helper
 8. Optional expanded workspace
 
 ## Development Rule
