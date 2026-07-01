@@ -1,84 +1,32 @@
-# KSJ Nexus
+# React + TypeScript + Vite
 
-**KSJ Nexus** is a modular desktop productivity hub built to centralize every KSJ project in one place.
+This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
 
-It starts as a fast, clean task manager and will grow into a full command center for projects, GitHub, deployments, notes, automation, and workflow control.
+Currently, two official plugins are available:
 
----
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## Vision
+## React Compiler
 
-KSJ Nexus is designed to be the central workspace for everything KSJ.
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-One place to manage:
+## Expanding the Oxlint configuration
 
-* Tasks
-* Projects
-* Notes
-* Ideas
-* GitHub activity
-* VPS/deployment status
-* Workflow automation
-* Future KSJ tools and integrations
+If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
 
----
+```json
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["react", "typescript", "oxc"],
+  "options": {
+    "typeAware": true
+  },
+  "rules": {
+    "react/rules-of-hooks": "error",
+    "react/only-export-components": ["warn", { "allowConstantExport": true }]
+  }
+}
+```
 
-## Core Goals
-
-* Simple and fast daily task management
-* Floating desktop mode
-* Modular project structure
-* Clean KSJ-branded interface
-* Local-first task storage
-* Future VPS/cloud sync support
-* Future GitHub and deployment integrations
-
----
-
-## Planned Modules
-
-* Tasks
-* Projects
-* Notes
-* Calendar
-* GitHub
-* Deployments
-* VPS Status
-* Discord
-* Email
-* Music Projects
-* Analytics
-* AI Assistant
-
----
-
-## Tech Stack
-
-* React
-* Vite
-* TypeScript
-* Electron
-* Tailwind CSS
-
----
-
-## Status
-
-KSJ Nexus is currently in early development.
-
-Version 1 will focus on:
-
-* Desktop app foundation
-* Task management
-* Project categories
-* Floating mode
-* Local saving
-* KSJ Nexus branding
-
----
-
-## Project Philosophy
-
-**One click to everything.**
-
-KSJ Nexus should make it easier to start work, track progress, and stay focused across every KSJ project.
+See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
