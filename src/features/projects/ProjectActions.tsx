@@ -1,4 +1,5 @@
 import { Clipboard, Code2, ExternalLink, MessageSquareText } from 'lucide-react'
+import { useState } from 'react'
 import type { CaptureItem } from '../../types/capture'
 import type { Project } from '../../data/projects'
 import '../../types/desktop'
@@ -6,6 +7,13 @@ import '../../types/desktop'
 type ProjectActionsProps = {
   project: Project
   items: CaptureItem[]
+}
+
+type FeedbackKind = 'ready' | 'success' | 'warning'
+
+type Feedback = {
+  kind: FeedbackKind
+  message: string
 }
 
 function buildChatGptUpdate(project: Project, items: CaptureItem[]) {
@@ -27,20 +35,38 @@ function buildChatGptUpdate(project: Project, items: CaptureItem[]) {
 }
 
 export function ProjectActions({ project, items }: ProjectActionsProps) {
-  const openVsCode = () => {
-    window.nexusDesktop?.openWorkspace(project.workspacePath)
+  const [feedback, setFeedback] = useState<Feedback>({
+    kind: 'ready',
+    message: 'Ready for project actions.',
+  })
+
+  const openVsCode = async () => {
+    const result = await window.nexusDesktop?.openWorkspace(project.workspacePath)
+
+    if (result?.ok) {
+      setFeedback({ kind: 'success', message: `Opening ${project.workspace} in VS Code.` })
+      return
+    }
+
+    setFeedback({
+      kind: 'warning',
+      message: result?.error ?? 'Workspace path is not set yet.',
+    })
   }
 
-  const openGitHub = () => {
-    window.nexusDesktop?.openExternal(project.repositoryUrl)
+  const openGitHub = async () => {
+    await window.nexusDesktop?.openExternal(project.repositoryUrl)
+    setFeedback({ kind: 'success', message: `Opening ${project.repository}.` })
   }
 
-  const openChatGpt = () => {
-    window.nexusDesktop?.openExternal(project.chatGptUrl)
+  const openChatGpt = async () => {
+    await window.nexusDesktop?.openExternal(project.chatGptUrl)
+    setFeedback({ kind: 'success', message: 'Opening ChatGPT.' })
   }
 
-  const copyChatGptUpdate = () => {
-    window.nexusDesktop?.copyText(buildChatGptUpdate(project, items))
+  const copyChatGptUpdate = async () => {
+    await window.nexusDesktop?.copyText(buildChatGptUpdate(project, items))
+    setFeedback({ kind: 'success', message: 'Project update copied for ChatGPT.' })
   }
 
   return (
@@ -55,6 +81,7 @@ export function ProjectActions({ project, items }: ProjectActionsProps) {
         <button onClick={openChatGpt} type="button"><MessageSquareText size={14} /> ChatGPT</button>
         <button onClick={copyChatGptUpdate} type="button"><Clipboard size={14} /> Copy update</button>
       </div>
+      <p className={`action-feedback ${feedback.kind}`}>{feedback.message}</p>
     </section>
   )
 }
