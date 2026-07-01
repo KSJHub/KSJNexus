@@ -45,11 +45,13 @@ h3 {
 }
 
 .brand small,
-p {
+p,
+.task-row small {
   color: var(--muted);
 }
 
-.brand small {
+.brand small,
+.task-row small {
   display: block;
   margin-top: 2px;
   font-size: 0.78rem;
@@ -180,6 +182,7 @@ h1 {
 }
 
 .task-row svg {
+  flex: 0 0 auto;
   color: var(--accent);
 }
 
