@@ -22,3 +22,24 @@
   border-color: rgba(0, 212, 255, 0.46);
   color: var(--strong);
 }
+
+.action-feedback {
+  min-height: 34px;
+  display: flex;
+  align-items: center;
+  padding: 8px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 0.74rem;
+}
+
+.action-feedback.success {
+  border-color: rgba(34, 197, 94, 0.25);
+  color: #86efac;
+}
+
+.action-feedback.warning {
+  border-color: rgba(251, 191, 36, 0.3);
+  color: #fde68a;
+}
