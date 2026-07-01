@@ -1,0 +1,34 @@
+.timeline-panel {
+  gap: 9px;
+}
+
+.timeline-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.timeline-row time {
+  min-width: 42px;
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.timeline-row strong {
+  display: block;
+  color: var(--strong);
+  font-size: 0.84rem;
+  line-height: 1.25;
+}
+
+.timeline-row small {
+  display: block;
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 0.7rem;
+}
