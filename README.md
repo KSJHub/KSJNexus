@@ -20,8 +20,25 @@ It includes:
 - ESLint
 - Minimal Nexus shell
 - Sidebar navigation
-- Project overview cards
-- Early KSJ Nexus theme
+- Early feature folders
+- Early task data module
+- GitHub Pages auto-deploy workflow
+
+## Source Structure
+
+```text
+src/
+├── components/
+│   └── layout/
+├── data/
+├── features/
+│   ├── dashboard/
+│   └── tasks/
+├── App.css
+├── App.tsx
+├── index.css
+└── main.tsx
+```
 
 ## Planned Build Order
 
