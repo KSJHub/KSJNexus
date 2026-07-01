@@ -1,11 +1,9 @@
 import './App.css'
-import { Sidebar } from './components/layout/Sidebar'
 import { HomePage } from './features/dashboard/HomePage'
 
 function App() {
   return (
-    <main className="nexus-shell">
-      <Sidebar />
+    <main className="companion-shell">
       <HomePage />
     </main>
   )
