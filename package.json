@@ -1,13 +1,19 @@
 {
   "name": "ksjnexus",
+  "productName": "KSJ Nexus",
+  "description": "A compact desktop companion for managing KSJ projects, tasks, notes and ideas.",
+  "author": "KSJ Hub",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
+  "main": "electron/main.js",
   "scripts": {
-    "dev": "vite",
+    "dev": "concurrently -k \"npm run web\" \"wait-on http://localhost:5173/KSJNexus/ && electron .\"",
+    "web": "vite",
     "build": "tsc -b && vite build",
+    "preview": "vite preview",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "dist": "echo Packaging will be configured in v0.3"
   },
   "dependencies": {
     "lucide-react": "^1.22.0",
@@ -27,9 +33,9 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.3",
     "globals": "^17.7.0",
-    "typescript": "~6.0.2",
+    "typescript": "^6.0.2",
     "typescript-eslint": "^8.62.1",
-    "vite": "^8.1.1",
+    "vite": "^8.1.2",
     "wait-on": "^9.0.10"
   }
 }
