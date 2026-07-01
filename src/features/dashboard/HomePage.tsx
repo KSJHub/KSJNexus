@@ -1,12 +1,22 @@
 import { Maximize2, Minus, Pin } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { ActivityFeed } from '../activity/ActivityFeed'
 import { CapturePanel } from '../capture/CapturePanel'
 import { InboxList } from '../inbox/InboxList'
+import { ProjectContext } from '../projects/ProjectContext'
+import { ProjectSwitcher } from '../projects/ProjectSwitcher'
+import { projects } from '../../data/projects'
 import { loadCaptures, saveCaptures } from '../../services/storage/capture-storage'
 import type { CaptureItem } from '../../types/capture'
 
 export function HomePage() {
+  const [activeProjectId, setActiveProjectId] = useState('ksj-nexus')
   const [captures, setCaptures] = useState<CaptureItem[]>(() => loadCaptures())
+
+  const activeProject = useMemo(
+    () => projects.find((project) => project.id === activeProjectId) ?? projects[0],
+    [activeProjectId],
+  )
 
   useEffect(() => {
     saveCaptures(captures)
@@ -15,6 +25,8 @@ export function HomePage() {
   const handleCapture = (item: CaptureItem) => {
     setCaptures((currentItems) => [item, ...currentItems])
   }
+
+  const activeProjectCaptures = captures.filter((item) => item.projectId === activeProjectId)
 
   return (
     <section className="companion-card" id="home">
@@ -30,16 +42,11 @@ export function HomePage() {
         </div>
       </header>
 
-      <CapturePanel onCapture={handleCapture} />
-      <InboxList items={captures} />
-
-      <section className="mini-panel status-panel">
-        <div className="section-heading">
-          <span>Status</span>
-          <small>{captures.length ? 'saved locally' : 'ready'}</small>
-        </div>
-        <p>{captures.length ? 'Your latest captures are stored on this device.' : 'Capture first. Organize later.'}</p>
-      </section>
+      <ProjectSwitcher activeProjectId={activeProjectId} onChange={setActiveProjectId} />
+      <ProjectContext items={captures} project={activeProject} />
+      <CapturePanel activeProjectId={activeProjectId} onCapture={handleCapture} />
+      <InboxList items={activeProjectCaptures} />
+      <ActivityFeed items={captures} />
     </section>
   )
 }
