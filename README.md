@@ -1,8 +1,23 @@
 # KSJ Nexus
 
-**KSJ Nexus** is a minimal desktop-first productivity hub for KSJ projects.
+**KSJ Nexus** is a compact desktop companion for KSJ projects.
 
-The goal is simple: one structured place for tasks, ideas, notes, project focus, and future workflow integrations.
+The goal is simple: a small A5-style app that stays beside VS Code, Discord, browsers, or games so notes and tasks can be captured quickly and synced to the right project later.
+
+## Product Direction
+
+KSJ Nexus is an **app first**, not a website or full-screen dashboard.
+
+Default mode should be:
+
+- A5-sized
+- draggable
+- resizable
+- quick to write into
+- project-aware
+- useful while working around other programs
+
+A larger workspace can come later, but the compact companion is the core product.
 
 ## Principles
 
@@ -12,14 +27,15 @@ The goal is simple: one structured place for tasks, ideas, notes, project focus,
 
 ## Current Focus
 
-Version `0.1` is the foundation stage.
+Version `0.1` is the companion foundation stage.
 
 It includes:
 
 - React + Vite + TypeScript
 - ESLint
-- Minimal Nexus shell
-- Sidebar navigation
+- A5-style companion shell
+- Quick note capture UI
+- Project picker foundation
 - Early feature folders
 - Early task data module
 - GitHub Pages auto-deploy workflow
@@ -42,12 +58,14 @@ src/
 
 ## Planned Build Order
 
-1. Foundation shell
-2. Tasks
-3. Local saving
-4. Floating desktop mode
-5. VPS sync later
-6. GitHub and deployment integrations later
+1. A5 companion layout
+2. Quick note capture
+3. Project picker
+4. Task capture
+5. Local saving
+6. GitHub/project sync
+7. Optional expanded workspace
+8. Electron floating desktop app
 
 ## Development Rule
 
