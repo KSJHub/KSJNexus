@@ -1,8 +1,21 @@
-import { Maximize2, Minus, Pin, Send } from 'lucide-react'
-import { projects } from '../../data/projects'
-import { TaskList } from '../tasks/TaskList'
+import { Maximize2, Minus, Pin } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { CapturePanel } from '../capture/CapturePanel'
+import { InboxList } from '../inbox/InboxList'
+import { loadCaptures, saveCaptures } from '../../services/storage/capture-storage'
+import type { CaptureItem } from '../../types/capture'
 
 export function HomePage() {
+  const [captures, setCaptures] = useState<CaptureItem[]>(() => loadCaptures())
+
+  useEffect(() => {
+    saveCaptures(captures)
+  }, [captures])
+
+  const handleCapture = (item: CaptureItem) => {
+    setCaptures((currentItems) => [item, ...currentItems])
+  }
+
   return (
     <section className="companion-card" id="home">
       <header className="companion-titlebar">
@@ -17,31 +30,15 @@ export function HomePage() {
         </div>
       </header>
 
-      <section className="quick-note">
-        <div className="section-heading">
-          <span>Quick note</span>
-          <small>sync to project soon</small>
-        </div>
-        <textarea placeholder="Type a note while you work..." rows={5} />
-        <div className="capture-row">
-          <select defaultValue="ksj-nexus" aria-label="Select project">
-            <option value="ksj-nexus">KSJ Nexus</option>
-            {projects.map((project) => (
-              <option value={project.id} key={project.id}>{project.name}</option>
-            ))}
-          </select>
-          <button type="button"><Send size={14} /> Save</button>
-        </div>
-      </section>
+      <CapturePanel onCapture={handleCapture} />
+      <InboxList items={captures} />
 
-      <TaskList />
-
-      <section className="mini-panel">
+      <section className="mini-panel status-panel">
         <div className="section-heading">
-          <span>Mode</span>
-          <small>A5 companion first</small>
+          <span>Status</span>
+          <small>{captures.length ? 'saved locally' : 'ready'}</small>
         </div>
-        <p>Keep Nexus small, fast, and ready beside VS Code, Discord, or games.</p>
+        <p>{captures.length ? 'Your latest captures are stored on this device.' : 'Capture first. Organize later.'}</p>
       </section>
     </section>
   )
