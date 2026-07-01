@@ -8,4 +8,6 @@ export type CaptureItem = {
   kind: CaptureKind
   createdAt: string
   completed: boolean
+  pinned?: boolean
+  archived?: boolean
 }
