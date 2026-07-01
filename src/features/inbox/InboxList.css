@@ -1,0 +1,75 @@
+.inbox-panel {
+  gap: 9px;
+}
+
+.search-box {
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 10px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 13px;
+  color: var(--muted);
+  background: rgba(5, 8, 17, 0.52);
+}
+
+.search-box input {
+  width: 100%;
+  border: 0;
+  color: var(--text);
+  background: transparent;
+  font: inherit;
+  font-size: 0.8rem;
+}
+
+.search-box input:focus {
+  outline: 0;
+}
+
+.inbox-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.inbox-controls button,
+.item-actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0, 212, 255, 0.22);
+  color: var(--accent);
+  background: rgba(0, 212, 255, 0.07);
+  font: inherit;
+}
+
+.inbox-controls button {
+  min-height: 28px;
+  padding: 0 9px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  text-transform: capitalize;
+}
+
+.inbox-controls button.active {
+  color: #001018;
+  background: var(--accent);
+}
+
+.task-row.pinned {
+  border-color: rgba(0, 212, 255, 0.32);
+  background: rgba(0, 212, 255, 0.07);
+}
+
+.item-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 5px;
+}
+
+.item-actions button {
+  width: 26px;
+  height: 26px;
+  border-radius: 9px;
+}
