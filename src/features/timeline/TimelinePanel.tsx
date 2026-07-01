@@ -1,4 +1,5 @@
 import type { TimelineEvent } from '../../types/timeline'
+import './TimelinePanel.css'
 
 type TimelinePanelProps = {
   events: TimelineEvent[]
