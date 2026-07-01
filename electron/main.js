@@ -7,10 +7,10 @@ function createWindow() {
   Menu.setApplicationMenu(null)
 
   mainWindow = new BrowserWindow({
-    width: 520,
-    height: 760,
-    minWidth: 420,
-    minHeight: 560,
+    width: 430,
+    height: 770,
+    minWidth: 360,
+    minHeight: 620,
     title: 'KSJ Nexus',
     backgroundColor: '#050811',
     autoHideMenuBar: true,
