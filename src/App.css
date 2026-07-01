@@ -2,34 +2,52 @@
   min-height: 100vh;
   display: grid;
   place-items: center;
-  padding: 24px;
+  padding: 18px;
   background:
-    radial-gradient(circle at top left, rgba(0, 212, 255, 0.16), transparent 28rem),
+    radial-gradient(circle at top left, rgba(0, 212, 255, 0.13), transparent 24rem),
     var(--bg);
 }
 
 .companion-card {
-  width: min(460px, calc(100vw - 32px));
-  min-height: 650px;
-  max-height: calc(100vh - 48px);
+  position: relative;
+  width: min(390px, calc(100vw - 28px));
+  min-height: 700px;
+  max-height: calc(100vh - 36px);
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
   overflow: hidden;
-  border: 1px solid var(--border);
-  border-radius: 24px;
-  background: linear-gradient(145deg, rgba(17, 24, 39, 0.96), rgba(7, 11, 19, 0.96));
-  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.42);
+  border: 1px solid rgba(0, 212, 255, 0.22);
+  border-radius: 22px;
+  background:
+    linear-gradient(90deg, rgba(0, 212, 255, 0.08) 0 38px, transparent 38px),
+    linear-gradient(145deg, rgba(17, 24, 39, 0.97), rgba(7, 11, 19, 0.98));
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.44);
+}
+
+.companion-card::before {
+  content: '';
+  position: absolute;
+  top: 96px;
+  bottom: 24px;
+  left: 18px;
+  width: 11px;
+  background:
+    radial-gradient(circle, rgba(0, 212, 255, 0.8) 0 4px, rgba(0, 0, 0, 0.65) 4px 6px, transparent 7px);
+  background-size: 11px 72px;
+  background-repeat: repeat-y;
+  opacity: 0.75;
+  pointer-events: none;
 }
 
 .companion-titlebar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 54px;
-  padding: 0 16px;
+  min-height: 52px;
+  padding: 0 14px 0 46px;
   border-bottom: 1px solid var(--border);
-  background: rgba(8, 13, 22, 0.88);
+  background: rgba(8, 13, 22, 0.9);
 }
 
 .companion-titlebar > div,
@@ -66,14 +84,14 @@
 }
 
 .window-actions button {
-  width: 30px;
-  height: 30px;
+  width: 29px;
+  height: 29px;
   border-radius: 10px;
 }
 
 .quick-note,
 .mini-panel {
-  margin: 0 14px;
+  margin: 0 12px 0 46px;
   border: 1px solid var(--border);
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.035);
@@ -82,7 +100,7 @@
 .quick-note {
   display: grid;
   gap: 10px;
-  padding: 14px;
+  padding: 13px;
 }
 
 .section-heading {
@@ -112,13 +130,20 @@ select {
 }
 
 textarea {
-  min-height: 124px;
+  min-height: 154px;
   resize: vertical;
   padding: 12px;
+  line-height: 1.65;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 30px,
+    rgba(148, 163, 184, 0.16) 31px
+  );
 }
 
 select {
-  min-height: 40px;
+  min-height: 39px;
   padding: 0 10px;
 }
 
@@ -129,24 +154,24 @@ select:focus {
 }
 
 .capture-row {
-  gap: 10px;
+  gap: 8px;
 }
 
 .capture-row button {
   gap: 7px;
-  min-height: 40px;
-  padding: 0 13px;
+  min-height: 39px;
+  padding: 0 12px;
   border-radius: 13px;
 }
 
 .mini-panel {
   display: grid;
   gap: 10px;
-  padding: 14px;
+  padding: 13px;
 }
 
 .task-row {
-  gap: 10px;
+  gap: 9px;
   padding: 10px;
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 14px;
@@ -161,13 +186,13 @@ select:focus {
 .task-row strong {
   display: block;
   color: var(--strong);
-  font-size: 0.92rem;
+  font-size: 0.88rem;
 }
 
 .task-row small {
   display: block;
   margin-top: 1px;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
 }
 
 h1,
@@ -187,6 +212,6 @@ p {
   }
 
   textarea {
-    min-height: 92px;
+    min-height: 110px;
   }
 }
