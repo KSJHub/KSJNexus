@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "concurrently -k \"npm run web\" \"wait-on http://localhost:5173/KSJNexus/ && electron .\"",
     "web": "vite",
+    "electron": "electron .",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "lint": "eslint .",
