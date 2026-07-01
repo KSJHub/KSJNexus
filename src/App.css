@@ -1,112 +1,173 @@
-.nexus-shell {
-  display: grid;
-  grid-template-columns: 280px 1fr;
+.companion-shell {
   min-height: 100vh;
-  background: radial-gradient(circle at top left, rgba(0, 212, 255, 0.14), transparent 34rem), var(--bg);
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(circle at top left, rgba(0, 212, 255, 0.16), transparent 28rem),
+    var(--bg);
 }
 
-.sidebar {
+.companion-card {
+  width: min(460px, calc(100vw - 32px));
+  min-height: 650px;
+  max-height: calc(100vh - 48px);
   display: flex;
   flex-direction: column;
-  gap: 28px;
-  min-height: 100vh;
-  padding: 24px;
-  border-right: 1px solid var(--border);
-  background: rgba(8, 13, 22, 0.86);
+  gap: 14px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  background: linear-gradient(145deg, rgba(17, 24, 39, 0.96), rgba(7, 11, 19, 0.96));
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.42);
 }
 
-.brand,
-.project-list a,
-.task-row {
+.companion-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 54px;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(8, 13, 22, 0.88);
+}
+
+.companion-titlebar > div,
+.window-actions,
+.capture-row,
+.task-row,
+.section-heading {
   display: flex;
   align-items: center;
 }
 
-.brand {
-  gap: 12px;
+.companion-titlebar > div:first-child {
+  gap: 9px;
 }
 
-.brand-mark {
-  display: grid;
-  width: 42px;
-  height: 42px;
-  place-items: center;
-  border: 1px solid rgba(0, 212, 255, 0.44);
-  border-radius: 14px;
+.app-mark {
+  color: var(--accent);
+  text-shadow: 0 0 18px rgba(0, 212, 255, 0.45);
+}
+
+.window-actions {
+  gap: 6px;
+}
+
+.window-actions button,
+.capture-row button,
+.topbar button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0, 212, 255, 0.24);
   color: var(--accent);
   background: rgba(0, 212, 255, 0.08);
 }
 
-.brand strong,
-h1,
-h2,
-h3 {
-  color: var(--strong);
+.window-actions button {
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
 }
 
-.brand small,
+.quick-note,
+.mini-panel {
+  margin: 0 14px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.quick-note {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+}
+
+.section-heading {
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.section-heading span {
+  color: var(--strong);
+  font-weight: 800;
+}
+
+.section-heading small,
 p,
 .task-row small {
   color: var(--muted);
 }
 
-.brand small,
-.task-row small {
-  display: block;
-  margin-top: 2px;
-  font-size: 0.78rem;
-}
-
-.nav-list,
-.project-list {
-  display: grid;
-  gap: 8px;
-}
-
-.nav-list a,
-.project-list a {
-  min-height: 42px;
-  padding: 0 12px;
-  border: 1px solid transparent;
-  border-radius: 12px;
+textarea,
+select {
+  width: 100%;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 14px;
   color: var(--text);
-  text-decoration: none;
+  background: rgba(5, 8, 17, 0.72);
+  font: inherit;
 }
 
-.project-list a {
+textarea {
+  min-height: 124px;
+  resize: vertical;
+  padding: 12px;
+}
+
+select {
+  min-height: 40px;
+  padding: 0 10px;
+}
+
+textarea:focus,
+select:focus {
+  outline: 2px solid rgba(0, 212, 255, 0.22);
+  border-color: rgba(0, 212, 255, 0.48);
+}
+
+.capture-row {
   gap: 10px;
 }
 
-.nav-list a:hover,
-.project-list a:hover,
-.nav-list a.active {
-  border-color: rgba(0, 212, 255, 0.28);
-  color: var(--strong);
-  background: rgba(0, 212, 255, 0.08);
+.capture-row button {
+  gap: 7px;
+  min-height: 40px;
+  padding: 0 13px;
+  border-radius: 13px;
 }
 
-.project-list > span,
-.eyebrow,
-.hero-card > span {
-  color: var(--accent);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.workspace {
+.mini-panel {
   display: grid;
-  align-content: start;
-  gap: 24px;
-  padding: 28px;
+  gap: 10px;
+  padding: 14px;
 }
 
-.topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
+.task-row {
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.task-row svg {
+  flex: 0 0 auto;
+  color: var(--accent);
+}
+
+.task-row strong {
+  display: block;
+  color: var(--strong);
+  font-size: 0.92rem;
+}
+
+.task-row small {
+  display: block;
+  margin-top: 1px;
+  font-size: 0.75rem;
 }
 
 h1,
@@ -116,97 +177,16 @@ p {
   margin: 0;
 }
 
-h1 {
-  margin-top: 6px;
-  font-size: clamp(2rem, 4vw, 3.8rem);
-  letter-spacing: -0.05em;
+p {
+  line-height: 1.55;
 }
 
-.hero-card,
-.panel {
-  border: 1px solid var(--border);
-  border-radius: 24px;
-  background: linear-gradient(145deg, rgba(17, 24, 39, 0.92), rgba(9, 14, 24, 0.92));
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.22);
-}
-
-.hero-card {
-  display: grid;
-  gap: 14px;
-  padding: 32px;
-}
-
-.hero-card h2 {
-  max-width: 760px;
-  font-size: clamp(1.8rem, 4vw, 3.2rem);
-  line-height: 1.02;
-  letter-spacing: -0.045em;
-}
-
-.hero-card p {
-  max-width: 700px;
-  line-height: 1.7;
-}
-
-.topbar button {
-  min-height: 40px;
-  padding: 0 14px;
-  border: 1px solid rgba(0, 212, 255, 0.32);
-  border-radius: 999px;
-  color: var(--accent);
-  background: rgba(0, 212, 255, 0.08);
-  cursor: not-allowed;
-}
-
-.content-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 24px;
-}
-
-.panel {
-  padding: 22px;
-}
-
-.panel h3 {
-  margin-bottom: 18px;
-}
-
-.task-row {
-  gap: 12px;
-  margin-top: 12px;
-  padding: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.035);
-}
-
-.task-row svg {
-  flex: 0 0 auto;
-  color: var(--accent);
-}
-
-ol {
-  display: grid;
-  gap: 10px;
-  margin: 0;
-  padding-left: 20px;
-}
-
-@media (max-width: 900px) {
-  .nexus-shell,
-  .content-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .sidebar {
+@media (max-height: 720px) {
+  .companion-card {
     min-height: auto;
-    border-right: 0;
-    border-bottom: 1px solid var(--border);
   }
 
-  .topbar {
-    align-items: flex-start;
-    flex-direction: column;
+  textarea {
+    min-height: 92px;
   }
 }
