@@ -1,12 +1,45 @@
-import { app, BrowserWindow, Menu, clipboard, ipcMain, shell } from 'electron'
+import { app, BrowserWindow, Menu, clipboard, dialog, ipcMain, shell } from 'electron'
 import { execFile } from 'node:child_process'
 import { existsSync } from 'node:fs'
 import path from 'node:path'
 
+const DEV_URL = 'http://localhost:5173/KSJNexus/'
 const isDev = !app.isPackaged
 let mainWindow = null
 
+function log(message) {
+  console.log(`[KSJ Nexus] ${message}`)
+}
+
+async function loadApp(window) {
+  try {
+    if (isDev) {
+      log(`Loading dev server: ${DEV_URL}`)
+      await window.loadURL(DEV_URL)
+      window.webContents.openDevTools({ mode: 'detach' })
+      return
+    }
+
+    const indexPath = path.join(app.getAppPath(), 'dist/index.html')
+    log(`Loading production file: ${indexPath}`)
+    await window.loadFile(indexPath)
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error)
+    log(`Failed to load app: ${message}`)
+
+    dialog.showErrorBox(
+      'KSJ Nexus failed to start',
+      isDev
+        ? `The desktop window opened, but the Vite dev server could not be loaded.\n\nExpected: ${DEV_URL}\n\nRun npm run dev, not npx electron .`
+        : `The built app could not be loaded.\n\n${message}`,
+    )
+
+    window.show()
+  }
+}
+
 function createWindow() {
+  log('Creating desktop window')
   Menu.setApplicationMenu(null)
 
   mainWindow = new BrowserWindow({
@@ -26,7 +59,16 @@ function createWindow() {
   })
 
   mainWindow.once('ready-to-show', () => {
+    log('Desktop window ready')
     mainWindow.show()
+  })
+
+  mainWindow.webContents.on('did-fail-load', (_event, errorCode, errorDescription, validatedUrl) => {
+    log(`Load failed (${errorCode}) ${errorDescription}: ${validatedUrl}`)
+  })
+
+  mainWindow.webContents.on('render-process-gone', (_event, details) => {
+    log(`Renderer process gone: ${details.reason}`)
   })
 
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
@@ -34,11 +76,7 @@ function createWindow() {
     return { action: 'deny' }
   })
 
-  if (isDev) {
-    mainWindow.loadURL('http://localhost:5173/KSJNexus/')
-  } else {
-    mainWindow.loadFile('dist/index.html')
-  }
+  void loadApp(mainWindow)
 }
 
 ipcMain.handle('nexus:copy-text', (_event, text) => {
@@ -60,7 +98,7 @@ ipcMain.handle('nexus:open-workspace', async (_event, workspacePath) => {
 
   execFile('code', [targetPath], (error) => {
     if (error) {
-      shell.openPath(targetPath)
+      void shell.openPath(targetPath)
     }
   })
 
@@ -68,6 +106,7 @@ ipcMain.handle('nexus:open-workspace', async (_event, workspacePath) => {
 })
 
 app.whenReady().then(() => {
+  log('Electron ready')
   createWindow()
 
   app.on('activate', () => {
@@ -78,6 +117,7 @@ app.whenReady().then(() => {
 })
 
 app.on('window-all-closed', () => {
+  log('All windows closed')
   if (process.platform !== 'darwin') {
     app.quit()
   }
