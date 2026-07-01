@@ -27,13 +27,15 @@ A larger workspace can come later, but the compact companion is the core product
 
 ## Current Focus
 
-Version `0.1` is the companion foundation stage.
+Version `0.3.1` is the native companion polish stage.
 
 It includes:
 
 - React + Vite + TypeScript
+- Electron desktop shell
 - ESLint
-- A5-style companion shell
+- A5-style companion window
+- Hidden default Electron menu
 - Quick note capture UI
 - Project picker foundation
 - Early feature folders
@@ -43,6 +45,9 @@ It includes:
 ## Source Structure
 
 ```text
+electron/
+└── main.js
+
 src/
 ├── components/
 │   └── layout/
@@ -59,13 +64,13 @@ src/
 ## Planned Build Order
 
 1. A5 companion layout
-2. Quick note capture
-3. Project picker
-4. Task capture
-5. Local saving
-6. GitHub/project sync
-7. Optional expanded workspace
-8. Electron floating desktop app
+2. Native Electron polish
+3. Quick note capture
+4. Project picker
+5. Task capture
+6. Local saving
+7. GitHub/project sync
+8. Optional expanded workspace
 
 ## Development Rule
 
@@ -81,3 +86,5 @@ npm run dev
 npm run lint
 npm run build
 ```
+
+Use `npm run dev` to launch the local Vite server and the Electron desktop app together.
