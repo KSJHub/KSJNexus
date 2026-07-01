@@ -1,0 +1,24 @@
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.action-grid button {
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 1px solid rgba(0, 212, 255, 0.24);
+  border-radius: 13px;
+  color: var(--accent);
+  background: rgba(0, 212, 255, 0.08);
+  font: inherit;
+  font-size: 0.76rem;
+}
+
+.action-grid button:hover {
+  border-color: rgba(0, 212, 255, 0.46);
+  color: var(--strong);
+}
