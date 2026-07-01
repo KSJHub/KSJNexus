@@ -28,7 +28,7 @@ A larger workspace can come later, but the compact notepad companion is the core
 
 ## Current Focus
 
-Version `0.3.2` is the personal-size notepad stage.
+Version `0.4.0` is the capture engine stage.
 
 It includes:
 
@@ -37,10 +37,11 @@ It includes:
 - ESLint
 - Personal-size notepad window
 - Hidden default Electron menu
-- Quick note capture UI
+- Real quick capture flow
 - Project picker foundation
-- Early feature folders
-- Early task data module
+- Item type selector
+- Local browser storage for captures
+- Live inbox list
 - GitHub Pages auto-deploy workflow
 
 ## Source Structure
@@ -54,8 +55,13 @@ src/
 │   └── layout/
 ├── data/
 ├── features/
+│   ├── capture/
 │   ├── dashboard/
+│   ├── inbox/
 │   └── tasks/
+├── services/
+│   └── storage/
+├── types/
 ├── App.css
 ├── App.tsx
 ├── index.css
@@ -68,8 +74,8 @@ src/
 2. Native Electron polish
 3. Quick note capture
 4. Project picker
-5. Task capture
-6. Local saving
+5. Local saving
+6. Inbox and recent activity
 7. GitHub/project sync
 8. Optional expanded workspace
 
