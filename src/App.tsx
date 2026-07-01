@@ -1,4 +1,5 @@
 import './App.css'
+import './features/projects/ProjectActions.css'
 import { HomePage } from './features/dashboard/HomePage'
 
 function App() {
