@@ -1,0 +1,209 @@
+.nexus-shell {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 100vh;
+  background: radial-gradient(circle at top left, rgba(0, 212, 255, 0.14), transparent 34rem), var(--bg);
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  min-height: 100vh;
+  padding: 24px;
+  border-right: 1px solid var(--border);
+  background: rgba(8, 13, 22, 0.86);
+}
+
+.brand,
+.project-list a,
+.task-row {
+  display: flex;
+  align-items: center;
+}
+
+.brand {
+  gap: 12px;
+}
+
+.brand-mark {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 1px solid rgba(0, 212, 255, 0.44);
+  border-radius: 14px;
+  color: var(--accent);
+  background: rgba(0, 212, 255, 0.08);
+}
+
+.brand strong,
+h1,
+h2,
+h3 {
+  color: var(--strong);
+}
+
+.brand small,
+p {
+  color: var(--muted);
+}
+
+.brand small {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.78rem;
+}
+
+.nav-list,
+.project-list {
+  display: grid;
+  gap: 8px;
+}
+
+.nav-list a,
+.project-list a {
+  min-height: 42px;
+  padding: 0 12px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.project-list a {
+  gap: 10px;
+}
+
+.nav-list a:hover,
+.project-list a:hover,
+.nav-list a.active {
+  border-color: rgba(0, 212, 255, 0.28);
+  color: var(--strong);
+  background: rgba(0, 212, 255, 0.08);
+}
+
+.project-list > span,
+.eyebrow,
+.hero-card > span {
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.workspace {
+  display: grid;
+  align-content: start;
+  gap: 24px;
+  padding: 28px;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+h1 {
+  margin-top: 6px;
+  font-size: clamp(2rem, 4vw, 3.8rem);
+  letter-spacing: -0.05em;
+}
+
+.hero-card,
+.panel {
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  background: linear-gradient(145deg, rgba(17, 24, 39, 0.92), rgba(9, 14, 24, 0.92));
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.22);
+}
+
+.hero-card {
+  display: grid;
+  gap: 14px;
+  padding: 32px;
+}
+
+.hero-card h2 {
+  max-width: 760px;
+  font-size: clamp(1.8rem, 4vw, 3.2rem);
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+}
+
+.hero-card p {
+  max-width: 700px;
+  line-height: 1.7;
+}
+
+.topbar button {
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid rgba(0, 212, 255, 0.32);
+  border-radius: 999px;
+  color: var(--accent);
+  background: rgba(0, 212, 255, 0.08);
+  cursor: not-allowed;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.panel {
+  padding: 22px;
+}
+
+.panel h3 {
+  margin-bottom: 18px;
+}
+
+.task-row {
+  gap: 12px;
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.task-row svg {
+  color: var(--accent);
+}
+
+ol {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 20px;
+}
+
+@media (max-width: 900px) {
+  .nexus-shell,
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    min-height: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .topbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
