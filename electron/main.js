@@ -1,5 +1,5 @@
 import { app, BrowserWindow, Menu, clipboard, dialog, ipcMain, shell } from 'electron'
-import { execFile } from 'node:child_process'
+import { execFile, spawn } from 'node:child_process'
 import { existsSync } from 'node:fs'
 import path from 'node:path'
 
@@ -7,6 +7,7 @@ const DEV_URL = 'http://localhost:5174/KSJNexus/'
 const isDev = !app.isPackaged
 let mainWindow = null
 let isExpanded = false
+let devServerProcess = null
 
 const companionBounds = {
   width: 860,
@@ -24,6 +25,11 @@ function log(message) {
 
 function getMainWindow() {
   return BrowserWindow.getFocusedWindow() ?? mainWindow
+}
+
+function isValidWorkspacePath(workspacePath) {
+  const targetPath = String(workspacePath ?? '')
+  return targetPath && existsSync(targetPath) ? targetPath : null
 }
 
 function runGit(workspacePath, args) {
@@ -113,9 +119,9 @@ ipcMain.handle('nexus:copy-text', (_event, text) => {
 })
 
 ipcMain.handle('nexus:get-git-status', async (_event, workspacePath) => {
-  const targetPath = String(workspacePath ?? '')
+  const targetPath = isValidWorkspacePath(workspacePath)
 
-  if (!targetPath || !existsSync(targetPath)) {
+  if (!targetPath) {
     return { ok: false, error: 'Workspace path is not set or does not exist.' }
   }
 
@@ -148,10 +154,36 @@ ipcMain.handle('nexus:open-external', async (_event, url) => {
   return { ok: true }
 })
 
-ipcMain.handle('nexus:open-workspace', async (_event, workspacePath) => {
-  const targetPath = String(workspacePath ?? '')
+ipcMain.handle('nexus:open-folder', async (_event, workspacePath) => {
+  const targetPath = isValidWorkspacePath(workspacePath)
 
-  if (!targetPath || !existsSync(targetPath)) {
+  if (!targetPath) {
+    return { ok: false, error: 'Workspace path is not set or does not exist.' }
+  }
+
+  await shell.openPath(targetPath)
+  return { ok: true }
+})
+
+ipcMain.handle('nexus:open-terminal', async (_event, workspacePath) => {
+  const targetPath = isValidWorkspacePath(workspacePath)
+
+  if (!targetPath) {
+    return { ok: false, error: 'Workspace path is not set or does not exist.' }
+  }
+
+  spawn('cmd.exe', ['/c', 'start', 'powershell.exe', '-NoExit', '-Command', `cd '${targetPath}'`], {
+    detached: true,
+    stdio: 'ignore',
+  }).unref()
+
+  return { ok: true }
+})
+
+ipcMain.handle('nexus:open-workspace', async (_event, workspacePath) => {
+  const targetPath = isValidWorkspacePath(workspacePath)
+
+  if (!targetPath) {
     return { ok: false, error: 'Workspace path is not set or does not exist.' }
   }
 
@@ -162,6 +194,46 @@ ipcMain.handle('nexus:open-workspace', async (_event, workspacePath) => {
   })
 
   return { ok: true }
+})
+
+ipcMain.handle('nexus:start-dev-server', async (_event, workspacePath) => {
+  const targetPath = isValidWorkspacePath(workspacePath)
+
+  if (!targetPath) {
+    return { ok: false, error: 'Workspace path is not set or does not exist.' }
+  }
+
+  if (devServerProcess) {
+    return { ok: true, running: true }
+  }
+
+  devServerProcess = spawn('npm.cmd', ['run', 'dev'], {
+    cwd: targetPath,
+    detached: true,
+    stdio: 'ignore',
+  })
+
+  devServerProcess.on('exit', () => {
+    devServerProcess = null
+  })
+
+  devServerProcess.unref()
+  return { ok: true, running: true }
+})
+
+ipcMain.handle('nexus:stop-dev-server', () => {
+  if (!devServerProcess) {
+    return { ok: true, running: false }
+  }
+
+  try {
+    process.kill(-devServerProcess.pid)
+  } catch {
+    devServerProcess.kill()
+  }
+
+  devServerProcess = null
+  return { ok: true, running: false }
 })
 
 ipcMain.handle('nexus:window-close', () => {
