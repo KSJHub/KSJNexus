@@ -8,6 +8,7 @@ import { projects } from '../../data/projects'
 import { loadCaptures, saveCaptures } from '../../services/storage/capture-storage'
 import type { CaptureItem } from '../../types/capture'
 import type { TimelineEvent, TimelineEventType } from '../../types/timeline'
+import '../../types/desktop'
 
 function createTimelineEvent(type: TimelineEventType, title: string, projectId: string, projectName: string): TimelineEvent {
   return {
@@ -27,6 +28,9 @@ export function HomePage() {
   const [inboxScope, setInboxScope] = useState<InboxScope>('project')
   const [kindFilter, setKindFilter] = useState<InboxKindFilter>('all')
   const [search, setSearch] = useState('')
+  const [windowStatus, setWindowStatus] = useState('Companion')
+  const [isPinned, setIsPinned] = useState(false)
+  const [isExpanded, setIsExpanded] = useState(false)
 
   const activeProject = useMemo(
     () => projects.find((project) => project.id === activeProjectId) ?? projects[0],
@@ -77,6 +81,24 @@ export function HomePage() {
     }
   }
 
+  const handleWindowPin = async () => {
+    const result = await window.nexusDesktop?.windowToggleAlwaysOnTop()
+
+    if (result?.ok) {
+      setIsPinned(Boolean(result.pinned))
+      setWindowStatus(result.pinned ? 'Pinned' : 'Companion')
+    }
+  }
+
+  const handleWindowSize = async () => {
+    const result = await window.nexusDesktop?.windowToggleSize()
+
+    if (result?.ok) {
+      setIsExpanded(Boolean(result.expanded))
+      setWindowStatus(result.expanded ? 'Expanded' : 'Companion')
+    }
+  }
+
   const activeItems = captures.filter((item) => !item.archived && item.projectId === activeProjectId)
   const latestItems = captures.filter((item) => !item.archived).slice(0, 5)
 
@@ -96,13 +118,13 @@ export function HomePage() {
         <div className="nexus-brand">
           <span className="brand-diamond">◆</span>
           <strong>KSJ Nexus</strong>
-          <small>Companion</small>
+          <small>{windowStatus}</small>
         </div>
         <div className="window-actions" aria-label="Window actions">
-          <button type="button" title="Pin on top"><Pin size={14} /></button>
-          <button type="button" title="Minimise"><Minus size={14} /></button>
-          <button type="button" title="Expand"><Maximize2 size={14} /></button>
-          <button type="button" title="Close"><X size={14} /></button>
+          <button className={isPinned ? 'active' : ''} onClick={handleWindowPin} type="button" title="Pin on top"><Pin size={14} /></button>
+          <button onClick={() => window.nexusDesktop?.windowMinimise()} type="button" title="Minimise"><Minus size={14} /></button>
+          <button className={isExpanded ? 'active' : ''} onClick={handleWindowSize} type="button" title="Expand"><Maximize2 size={14} /></button>
+          <button className="danger" onClick={() => window.nexusDesktop?.windowClose()} type="button" title="Close"><X size={14} /></button>
         </div>
       </header>
 
