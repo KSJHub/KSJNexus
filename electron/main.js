@@ -3,7 +3,7 @@ import { execFile } from 'node:child_process'
 import { existsSync } from 'node:fs'
 import path from 'node:path'
 
-const DEV_URL = 'http://localhost:5173/KSJNexus/'
+const DEV_URL = 'http://localhost:5174/KSJNexus/'
 const isDev = !app.isPackaged
 let mainWindow = null
 
