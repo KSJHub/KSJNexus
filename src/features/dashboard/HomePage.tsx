@@ -1,11 +1,9 @@
-import { Inbox, Maximize2, Minus, Pin, Send, X } from 'lucide-react'
+import { CheckCircle2, Github, Maximize2, Minus, Pin, Send, Sparkles, X } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { CapturePanel } from '../capture/CapturePanel'
 import { InboxList } from '../inbox/InboxList'
 import type { InboxKindFilter, InboxScope } from '../inbox/inbox-filters'
 import { ProjectActions } from '../projects/ProjectActions'
-import { ProjectContext } from '../projects/ProjectContext'
-import { ProjectSwitcher } from '../projects/ProjectSwitcher'
 import { projects } from '../../data/projects'
 import { loadCaptures, saveCaptures } from '../../services/storage/capture-storage'
 import type { CaptureItem } from '../../types/capture'
@@ -43,7 +41,8 @@ export function HomePage() {
     setTimeline((currentEvents) => [event, ...currentEvents].slice(0, 30))
   }
 
-  const handleProjectChange = (projectId: string) => {
+  const handleProjectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const projectId = event.target.value
     const project = projects.find((item) => item.id === projectId) ?? projects[0]
     setActiveProjectId(projectId)
     addTimelineEvent(createTimelineEvent('project', `Switched to ${project.name}`, project.id, project.name))
@@ -78,6 +77,9 @@ export function HomePage() {
     }
   }
 
+  const activeItems = captures.filter((item) => !item.archived && item.projectId === activeProjectId)
+  const latestItems = captures.filter((item) => !item.archived).slice(0, 5)
+
   const visibleCaptures = captures.filter((item) => {
     if (item.archived) return false
     if (inboxScope === 'project' && item.projectId !== activeProjectId) return false
@@ -104,23 +106,48 @@ export function HomePage() {
         </div>
       </header>
 
-      <main className="companion-workspace">
-        <section className="companion-topline">
-          <ProjectSwitcher activeProjectId={activeProjectId} onChange={handleProjectChange} />
-          <ProjectContext items={captures} project={activeProject} />
-        </section>
-
-        <section className="companion-mainline">
-          <CapturePanel activeProjectId={activeProjectId} onCapture={handleCapture} />
-          <ProjectActions items={captures} project={activeProject} />
-        </section>
-
-        <section className="companion-inbox">
-          <div className="companion-section-label">
-            <Inbox size={15} />
-            <span>Inbox</span>
-            <small>{visibleCaptures.length} active</small>
+      <main className="companion-workspace simplified">
+        <section className="project-strip">
+          <label>
+            <span>Active project</span>
+            <select onChange={handleProjectChange} value={activeProjectId}>
+              {projects.map((project) => (
+                <option key={project.id} value={project.id}>{project.name}</option>
+              ))}
+            </select>
+          </label>
+          <div className="connection-status">
+            <span><CheckCircle2 size={13} /> {activeItems.length} active</span>
+            <span><Github size={13} /> {activeProject.repository}</span>
+            <span><Sparkles size={13} /> ChatGPT ready</span>
           </div>
+        </section>
+
+        <CapturePanel activeProjectId={activeProjectId} onCapture={handleCapture} />
+
+        <section className="recent-flow">
+          <div className="companion-section-label">
+            <span>Recent activity</span>
+            <small>{latestItems.length} latest</small>
+          </div>
+          <div className="recent-list">
+            {latestItems.length === 0 ? (
+              <p className="empty-state">Capture something and it will appear here.</p>
+            ) : (
+              latestItems.map((item) => (
+                <div className="recent-item" key={item.id}>
+                  <span>{item.kind}</span>
+                  <strong>{item.text}</strong>
+                  <small>{item.projectName}</small>
+                </div>
+              ))
+            )}
+          </div>
+        </section>
+
+        <ProjectActions items={captures} project={activeProject} />
+
+        <section className="companion-inbox compact-hidden">
           <InboxList
             items={visibleCaptures}
             kindFilter={kindFilter}
