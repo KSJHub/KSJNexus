@@ -2,89 +2,68 @@
   min-height: 100vh;
   display: grid;
   place-items: center;
-  padding: 18px;
-  background:
-    radial-gradient(circle at top left, rgba(0, 212, 255, 0.13), transparent 24rem),
-    var(--bg);
+  padding: 0;
+  background: var(--bg);
 }
 
-.companion-card {
-  position: relative;
-  width: min(390px, calc(100vw - 28px));
-  min-height: 700px;
-  max-height: calc(100vh - 36px);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  overflow: auto;
-  border: 1px solid rgba(0, 212, 255, 0.22);
-  border-radius: 22px;
+.nexus-desktop {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: 58px 1fr;
+  border: 1px solid rgba(0, 212, 255, 0.45);
+  border-radius: 18px;
   background:
-    linear-gradient(90deg, rgba(0, 212, 255, 0.08) 0 38px, transparent 38px),
-    linear-gradient(145deg, rgba(17, 24, 39, 0.97), rgba(7, 11, 19, 0.98));
-  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.44);
+    radial-gradient(circle at top left, rgba(0, 212, 255, 0.16), transparent 20rem),
+    linear-gradient(145deg, rgba(8, 13, 22, 0.99), rgba(3, 6, 12, 1));
+  box-shadow: inset 0 0 0 1px rgba(0, 212, 255, 0.08);
 }
 
-.companion-card::before {
-  content: '';
-  position: fixed;
-  top: 96px;
-  bottom: 24px;
-  width: 11px;
-  margin-left: 18px;
-  background:
-    radial-gradient(circle, rgba(0, 212, 255, 0.8) 0 4px, rgba(0, 0, 0, 0.65) 4px 6px, transparent 7px);
-  background-size: 11px 72px;
-  background-repeat: repeat-y;
-  opacity: 0.75;
-  pointer-events: none;
-}
-
-.companion-titlebar {
-  position: sticky;
-  top: 0;
-  z-index: 2;
+.nexus-titlebar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 52px;
-  padding: 0 14px 0 46px;
-  border-bottom: 1px solid var(--border);
-  background: rgba(8, 13, 22, 0.94);
-  backdrop-filter: blur(14px);
+  padding: 0 16px 0 22px;
+  border-bottom: 1px solid rgba(0, 212, 255, 0.18);
+  background: rgba(4, 8, 15, 0.92);
 }
 
-.companion-titlebar > div,
+.nexus-brand,
 .window-actions,
+.nexus-sidebar button,
 .capture-row,
 .task-row,
 .section-heading,
 .capture-options,
 .project-chip-list,
 .context-stats,
-.activity-row {
+.activity-row,
+.timeline-row {
   display: flex;
   align-items: center;
 }
 
-.companion-titlebar > div:first-child {
-  gap: 9px;
+.nexus-brand {
+  gap: 10px;
 }
 
+.brand-diamond,
+.footer-diamond,
 .app-mark {
   color: var(--accent);
   text-shadow: 0 0 18px rgba(0, 212, 255, 0.45);
 }
 
-.window-actions,
-.capture-row {
-  gap: 6px;
+.window-actions {
+  gap: 8px;
 }
 
 .window-actions button,
 .capture-row button,
 .capture-options button,
 .project-chip-list button,
+.nexus-sidebar button,
 .topbar button {
   display: inline-flex;
   align-items: center;
@@ -95,14 +74,95 @@
 }
 
 .window-actions button {
-  width: 29px;
-  height: 29px;
-  border-radius: 10px;
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+}
+
+.nexus-body {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 145px 1fr;
+}
+
+.nexus-sidebar {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 14px 10px;
+  border-right: 1px solid rgba(0, 212, 255, 0.16);
+  background: rgba(2, 8, 15, 0.68);
+}
+
+.nexus-sidebar nav {
+  display: grid;
+  gap: 8px;
+}
+
+.nexus-sidebar button {
+  min-height: 42px;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 0 11px;
+  border-radius: 13px;
+  color: var(--text);
+  background: transparent;
+  font: inherit;
+}
+
+.nexus-sidebar button.active {
+  border-color: rgba(0, 212, 255, 0.5);
+  color: var(--strong);
+  background: rgba(0, 212, 255, 0.12);
+  box-shadow: 0 0 18px rgba(0, 212, 255, 0.12);
+}
+
+.sidebar-footer {
+  display: grid;
+  gap: 7px;
+  padding: 10px;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.sidebar-footer strong {
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.nexus-workspace {
+  min-height: 0;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  gap: 10px;
+  padding: 12px;
+}
+
+.workspace-top,
+.workspace-middle,
+.workspace-bottom {
+  min-height: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.workspace-top {
+  grid-template-columns: 1fr 1fr;
+}
+
+.workspace-middle {
+  grid-template-columns: 1fr 1fr;
+}
+
+.workspace-bottom {
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
 }
 
 .quick-note,
 .mini-panel {
-  margin: 0 12px 0 46px;
+  min-width: 0;
   border: 1px solid var(--border);
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.035);
@@ -111,8 +171,8 @@
 .quick-note,
 .mini-panel {
   display: grid;
-  gap: 10px;
-  padding: 13px;
+  gap: 9px;
+  padding: 12px;
 }
 
 .section-heading {
@@ -129,6 +189,7 @@
 p,
 .task-row small,
 .activity-row small,
+.timeline-row small,
 .context-links,
 .empty-state {
   color: var(--muted);
@@ -145,15 +206,15 @@ select {
 }
 
 textarea {
-  min-height: 122px;
-  resize: vertical;
-  padding: 12px;
-  line-height: 1.65;
+  min-height: 72px;
+  resize: none;
+  padding: 11px;
+  line-height: 1.5;
   background-image: repeating-linear-gradient(
     to bottom,
     transparent 0,
-    transparent 30px,
-    rgba(148, 163, 184, 0.16) 31px
+    transparent 27px,
+    rgba(148, 163, 184, 0.14) 28px
   );
 }
 
@@ -176,10 +237,10 @@ select:focus {
 
 .capture-options button,
 .project-chip-list button {
-  min-height: 29px;
+  min-height: 28px;
   padding: 0 9px;
   border-radius: 999px;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   text-transform: capitalize;
 }
 
@@ -189,16 +250,20 @@ select:focus {
   background: var(--accent);
 }
 
+.capture-row {
+  gap: 6px;
+}
+
 .capture-row button {
   gap: 7px;
-  min-height: 39px;
+  min-height: 38px;
   padding: 0 12px;
   border-radius: 13px;
 }
 
 .active-project-label {
   flex: 1;
-  min-height: 39px;
+  min-height: 38px;
   display: inline-flex;
   align-items: center;
   padding: 0 10px;
@@ -206,12 +271,11 @@ select:focus {
   border-radius: 13px;
   color: var(--muted);
   background: rgba(5, 8, 17, 0.52);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
 }
 
 .context-stats {
   gap: 8px;
-  flex-wrap: wrap;
 }
 
 .context-stats span {
@@ -221,7 +285,7 @@ select:focus {
   border-radius: 12px;
   color: var(--muted);
   background: rgba(255, 255, 255, 0.03);
-  font-size: 0.72rem;
+  font-size: 0.7rem;
 }
 
 .context-stats strong {
@@ -233,15 +297,16 @@ select:focus {
 .context-links {
   display: grid;
   gap: 4px;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
 }
 
 .task-row,
-.activity-row {
+.activity-row,
+.timeline-row {
   gap: 9px;
-  padding: 10px;
+  padding: 9px;
   border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 14px;
+  border-radius: 13px;
   background: rgba(255, 255, 255, 0.03);
 }
 
@@ -251,25 +316,34 @@ select:focus {
 }
 
 .task-row strong,
-.activity-row strong {
+.activity-row strong,
+.timeline-row strong {
   display: block;
   color: var(--strong);
-  font-size: 0.86rem;
-  line-height: 1.25;
+  font-size: 0.8rem;
+  line-height: 1.2;
 }
 
 .task-row small,
-.activity-row small {
+.activity-row small,
+.timeline-row small {
   display: block;
   margin-top: 2px;
-  font-size: 0.7rem;
+  font-size: 0.66rem;
 }
 
-.activity-row time {
-  min-width: 42px;
+.activity-row time,
+.timeline-row time {
+  min-width: 38px;
   color: var(--accent);
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 800;
+}
+
+.inbox-panel,
+.timeline-panel {
+  overflow: hidden;
+  align-content: start;
 }
 
 h1,
@@ -280,15 +354,21 @@ p {
 }
 
 p {
-  line-height: 1.55;
+  line-height: 1.45;
 }
 
-@media (max-height: 720px) {
-  .companion-card {
-    min-height: auto;
+@media (max-width: 760px) {
+  .nexus-body {
+    grid-template-columns: 64px 1fr;
   }
 
-  textarea {
-    min-height: 104px;
+  .nexus-sidebar button span,
+  .sidebar-footer {
+    display: none;
+  }
+
+  .nexus-sidebar button {
+    justify-content: center;
+    padding: 0;
   }
 }
