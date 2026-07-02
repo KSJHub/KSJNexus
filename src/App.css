@@ -54,7 +54,8 @@ p,
 .empty-state,
 .repo-status-error,
 .repo-status-grid small,
-.repo-status-grid em {
+.repo-status-grid em,
+.workspace-feedback {
   color: var(--muted);
 }
 
@@ -72,7 +73,8 @@ p,
 .capture-row button,
 .capture-options button,
 .action-grid button,
-.repo-status-panel button {
+.repo-status-panel button,
+.workspace-control-grid button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -102,7 +104,7 @@ p,
   min-height: 0;
   overflow: hidden;
   display: grid;
-  grid-template-rows: 82px 204px 1fr 138px 30px;
+  grid-template-rows: 82px 198px 1fr 138px 30px;
   gap: 10px;
   padding: 12px;
 }
@@ -111,7 +113,8 @@ p,
 .quick-note,
 .recent-flow,
 .project-actions,
-.repo-status-panel {
+.repo-status-panel,
+.workspace-controls-panel {
   min-width: 0;
   min-height: 0;
   border-radius: 18px;
@@ -173,26 +176,28 @@ select {
 .quick-note,
 .recent-flow,
 .project-actions,
-.repo-status-panel {
+.repo-status-panel,
+.workspace-controls-panel {
   display: grid;
   gap: 10px;
   padding: 13px;
 }
 
 .quick-note,
-.repo-status-panel {
+.repo-status-panel,
+.workspace-controls-panel {
   align-content: start;
 }
 
 .focus-grid {
   min-height: 0;
   display: grid;
-  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  grid-template-columns: minmax(0, 0.7fr) minmax(0, 1fr) minmax(0, 0.9fr);
   gap: 10px;
 }
 
 textarea {
-  min-height: 96px;
+  min-height: 92px;
   resize: none;
   padding: 12px;
   line-height: 1.5;
@@ -322,8 +327,23 @@ button:focus {
   grid-column: 1 / -1;
 }
 
-.repo-status-error {
+.repo-status-error,
+.workspace-feedback {
   font-size: 0.72rem;
+}
+
+.workspace-control-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.workspace-control-grid button {
+  gap: 7px;
+  min-height: 36px;
+  border-radius: 12px;
+  font: inherit;
+  font-size: 0.7rem;
 }
 
 .project-actions {
@@ -382,7 +402,7 @@ p {
 
 @media (max-width: 790px) {
   .companion-workspace.simplified {
-    grid-template-rows: 78px 200px 1fr 170px 30px;
+    grid-template-rows: 78px 198px 1fr 170px 30px;
   }
 
   .project-strip,
@@ -391,7 +411,8 @@ p {
   }
 
   .connection-status span:nth-child(n + 3),
-  .repo-status-panel {
+  .repo-status-panel,
+  .workspace-controls-panel {
     display: none;
   }
 
