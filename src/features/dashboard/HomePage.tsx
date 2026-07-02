@@ -125,7 +125,7 @@ export function HomePage() {
   }
 
   const activeItems = captures.filter((item) => !item.archived && item.projectId === activeProjectId)
-  const latestItems = captures.filter((item) => !item.archived).slice(0, 3)
+  const latestItems = captures.filter((item) => !item.archived).slice(0, 5)
 
   const visibleCaptures = captures.filter((item) => {
     if (item.archived) return false
@@ -138,7 +138,7 @@ export function HomePage() {
   })
 
   return (
-    <section className="nexus-desktop companion-mode" id="home">
+    <section className={`nexus-desktop companion-mode ${isExpanded ? 'expanded-mode' : ''}`} id="home">
       <header className="nexus-titlebar">
         <div className="nexus-brand">
           <span className="brand-diamond">◆</span>
@@ -156,7 +156,7 @@ export function HomePage() {
       <main className="companion-workspace simplified">
         <section className="project-strip">
           <label>
-            <span>Active project</span>
+            <span>Project</span>
             <select onChange={handleProjectChange} value={activeProjectId}>
               {profiles.map((project) => (
                 <option key={project.id} value={project.id}>{project.name}</option>
@@ -166,13 +166,14 @@ export function HomePage() {
           <div className="connection-status">
             <span><CheckCircle2 size={13} /> {activeItems.length} active</span>
             <span><GitBranch size={13} /> {activeProject.repository}</span>
-            <span><Sparkles size={13} /> ChatGPT ready</span>
+            <span><Sparkles size={13} /> ChatGPT</span>
           </div>
         </section>
 
         <CapturePanel activeProjectId={activeProjectId} onCapture={handleCapture} />
 
-        <section className="focus-grid intelligence-grid">
+        <section className="small-focus-grid">
+          <RepoStatusPanel project={activeProject} />
           <section className="recent-flow">
             <div className="companion-section-label">
               <span>Recent</span>
@@ -180,7 +181,7 @@ export function HomePage() {
             </div>
             <div className="recent-list">
               {latestItems.length === 0 ? (
-                <p className="empty-state">Capture something and it will appear here.</p>
+                <p className="empty-state">Saved notes appear here.</p>
               ) : (
                 latestItems.map((item) => (
                   <div className="recent-item" key={item.id}>
@@ -191,12 +192,14 @@ export function HomePage() {
               )}
             </div>
           </section>
-          <RepoStatusPanel project={activeProject} />
-          <ProjectHealthPanel project={activeProject} />
-          <WorkspaceControls project={activeProject} />
         </section>
 
         <ProjectActions items={captures} project={activeProject} />
+
+        <section className="expanded-tools">
+          <ProjectHealthPanel project={activeProject} />
+          <WorkspaceControls project={activeProject} />
+        </section>
 
         <section className="companion-inbox compact-hidden">
           <InboxList
@@ -213,7 +216,7 @@ export function HomePage() {
         </section>
 
         <footer className="companion-footer">
-          <span><Send size={13} /> Capture first. Organise later.</span>
+          <span><Send size={13} /> Small companion mode</span>
           <span>{activeProject.name}</span>
         </footer>
       </main>
