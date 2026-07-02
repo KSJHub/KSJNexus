@@ -1,9 +1,9 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
 export default defineConfig({
-  base: "/KSJNexus/",
-  plugins: [react],
+  base: '/KSJNexus/',
+  plugins: [react()],
   server: {
     port: 5174,
     strictPort: true,
@@ -12,4 +12,4 @@ export default defineConfig({
     port: 5174,
     strictPort: true,
   },
-});
+})
