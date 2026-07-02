@@ -2,6 +2,7 @@ import { contextBridge, ipcRenderer } from 'electron'
 
 contextBridge.exposeInMainWorld('nexusDesktop', {
   copyText: (text) => ipcRenderer.invoke('nexus:copy-text', text),
+  getGitStatus: (workspacePath) => ipcRenderer.invoke('nexus:get-git-status', workspacePath),
   openExternal: (url) => ipcRenderer.invoke('nexus:open-external', url),
   openWorkspace: (workspacePath) => ipcRenderer.invoke('nexus:open-workspace', workspacePath),
   windowClose: () => ipcRenderer.invoke('nexus:window-close'),
