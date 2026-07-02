@@ -6,9 +6,24 @@ import path from 'node:path'
 const DEV_URL = 'http://localhost:5174/KSJNexus/'
 const isDev = !app.isPackaged
 let mainWindow = null
+let isExpanded = false
+
+const companionBounds = {
+  width: 860,
+  height: 640,
+}
+
+const expandedBounds = {
+  width: 1180,
+  height: 760,
+}
 
 function log(message) {
   console.log(`[KSJ Nexus] ${message}`)
+}
+
+function getMainWindow() {
+  return BrowserWindow.getFocusedWindow() ?? mainWindow
 }
 
 async function loadApp(window) {
@@ -42,8 +57,8 @@ function createWindow() {
   Menu.setApplicationMenu(null)
 
   mainWindow = new BrowserWindow({
-    width: 860,
-    height: 640,
+    width: companionBounds.width,
+    height: companionBounds.height,
     minWidth: 760,
     minHeight: 560,
     title: 'KSJ Nexus',
@@ -103,6 +118,47 @@ ipcMain.handle('nexus:open-workspace', async (_event, workspacePath) => {
   })
 
   return { ok: true }
+})
+
+ipcMain.handle('nexus:window-close', () => {
+  getMainWindow()?.close()
+  return { ok: true }
+})
+
+ipcMain.handle('nexus:window-minimise', () => {
+  getMainWindow()?.minimize()
+  return { ok: true }
+})
+
+ipcMain.handle('nexus:window-toggle-always-on-top', () => {
+  const window = getMainWindow()
+
+  if (!window) {
+    return { ok: false, error: 'Window is not available.' }
+  }
+
+  const shouldPin = !window.isAlwaysOnTop()
+  window.setAlwaysOnTop(shouldPin)
+
+  return { ok: true, pinned: shouldPin }
+})
+
+ipcMain.handle('nexus:window-toggle-size', () => {
+  const window = getMainWindow()
+
+  if (!window) {
+    return { ok: false, error: 'Window is not available.' }
+  }
+
+  isExpanded = !isExpanded
+  window.setSize(
+    isExpanded ? expandedBounds.width : companionBounds.width,
+    isExpanded ? expandedBounds.height : companionBounds.height,
+    true,
+  )
+  window.center()
+
+  return { ok: true, expanded: isExpanded }
 })
 
 app.whenReady().then(() => {
