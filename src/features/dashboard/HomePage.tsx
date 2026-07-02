@@ -5,6 +5,7 @@ import { InboxList } from '../inbox/InboxList'
 import type { InboxKindFilter, InboxScope } from '../inbox/inbox-filters'
 import { ProfileManager } from '../projects/ProfileManager'
 import { ProjectActions } from '../projects/ProjectActions'
+import { RepoStatusPanel } from '../status/RepoStatusPanel'
 import { projects as defaultProjects } from '../../data/projects'
 import { loadCaptures, saveCaptures } from '../../services/storage/capture-storage'
 import type { CaptureItem } from '../../types/capture'
@@ -130,7 +131,7 @@ export function HomePage() {
   }
 
   const activeItems = captures.filter((item) => !item.archived && item.projectId === activeProjectId)
-  const latestItems = captures.filter((item) => !item.archived).slice(0, 4)
+  const latestItems = captures.filter((item) => !item.archived).slice(0, 3)
 
   const visibleCaptures = captures.filter((item) => {
     if (item.archived) return false
@@ -197,6 +198,7 @@ export function HomePage() {
               )}
             </div>
           </section>
+          <RepoStatusPanel project={activeProject} />
           <ProfileManager project={activeProject} onSave={saveProfile} />
         </section>
 
