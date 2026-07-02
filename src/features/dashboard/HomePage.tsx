@@ -1,6 +1,5 @@
-import { Maximize2, Minus, Pin } from 'lucide-react'
+import { Bot, Code2, Folder, Home, Inbox, Maximize2, Minus, Pin, Settings, Timer } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
-import { ActivityFeed } from '../activity/ActivityFeed'
 import { CapturePanel } from '../capture/CapturePanel'
 import { InboxList } from '../inbox/InboxList'
 import type { InboxKindFilter, InboxScope } from '../inbox/inbox-filters'
@@ -23,6 +22,16 @@ function createTimelineEvent(type: TimelineEventType, title: string, projectId: 
     createdAt: new Date().toISOString(),
   }
 }
+
+const navigationItems = [
+  { label: 'Home', icon: Home },
+  { label: 'Inbox', icon: Inbox },
+  { label: 'Timeline', icon: Timer },
+  { label: 'Projects', icon: Folder },
+  { label: 'VS Code', icon: Code2 },
+  { label: 'ChatGPT', icon: Bot },
+  { label: 'Settings', icon: Settings },
+]
 
 export function HomePage() {
   const [activeProjectId, setActiveProjectId] = useState('ksj-nexus')
@@ -91,10 +100,10 @@ export function HomePage() {
   })
 
   return (
-    <section className="companion-card" id="home">
-      <header className="companion-titlebar">
-        <div>
-          <span className="app-mark">◆</span>
+    <section className="nexus-desktop" id="home">
+      <header className="nexus-titlebar">
+        <div className="nexus-brand">
+          <span className="brand-diamond">◆</span>
           <strong>KSJ Nexus</strong>
         </div>
         <div className="window-actions" aria-label="Window actions">
@@ -104,23 +113,53 @@ export function HomePage() {
         </div>
       </header>
 
-      <ProjectSwitcher activeProjectId={activeProjectId} onChange={handleProjectChange} />
-      <ProjectContext items={captures} project={activeProject} />
-      <ProjectActions items={captures} project={activeProject} />
-      <CapturePanel activeProjectId={activeProjectId} onCapture={handleCapture} />
-      <InboxList
-        items={visibleCaptures}
-        kindFilter={kindFilter}
-        onArchive={handleArchive}
-        onKindFilterChange={setKindFilter}
-        onPin={handlePin}
-        onScopeChange={setInboxScope}
-        onSearchChange={setSearch}
-        scope={inboxScope}
-        search={search}
-      />
-      <TimelinePanel events={timeline} />
-      <ActivityFeed items={captures.filter((item) => !item.archived)} />
+      <div className="nexus-body">
+        <aside className="nexus-sidebar">
+          <nav>
+            {navigationItems.map((item, index) => {
+              const Icon = item.icon
+              return (
+                <button className={index === 0 ? 'active' : ''} key={item.label} type="button">
+                  <Icon size={17} />
+                  <span>{item.label}</span>
+                </button>
+              )
+            })}
+          </nav>
+          <div className="sidebar-footer">
+            <span className="footer-diamond">◇</span>
+            <strong>KSJ Nexus</strong>
+            <p>All your projects. All your context. One place.</p>
+          </div>
+        </aside>
+
+        <main className="nexus-workspace">
+          <section className="workspace-top">
+            <ProjectSwitcher activeProjectId={activeProjectId} onChange={handleProjectChange} />
+            <ProjectContext items={captures} project={activeProject} />
+          </section>
+
+          <section className="workspace-middle">
+            <ProjectActions items={captures} project={activeProject} />
+            <CapturePanel activeProjectId={activeProjectId} onCapture={handleCapture} />
+          </section>
+
+          <section className="workspace-bottom">
+            <InboxList
+              items={visibleCaptures}
+              kindFilter={kindFilter}
+              onArchive={handleArchive}
+              onKindFilterChange={setKindFilter}
+              onPin={handlePin}
+              onScopeChange={setInboxScope}
+              onSearchChange={setSearch}
+              scope={inboxScope}
+              search={search}
+            />
+            <TimelinePanel events={timeline} />
+          </section>
+        </main>
+      </div>
     </section>
   )
 }
