@@ -1,5 +1,5 @@
 import { Save, Settings } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import type { ProjectProfile } from '../../types/project-profile'
 
 type ProfileManagerProps = {
@@ -8,14 +8,17 @@ type ProfileManagerProps = {
 }
 
 export function ProfileManager({ project, onSave }: ProfileManagerProps) {
-  const [draft, setDraft] = useState<ProjectProfile>(project)
-
-  useEffect(() => {
-    setDraft(project)
-  }, [project])
+  const [drafts, setDrafts] = useState<Record<string, ProjectProfile>>({})
+  const draft = drafts[project.id] ?? project
 
   const updateField = (field: keyof ProjectProfile, value: string) => {
-    setDraft((currentDraft) => ({ ...currentDraft, [field]: value }))
+    setDrafts((currentDrafts) => ({
+      ...currentDrafts,
+      [project.id]: {
+        ...draft,
+        [field]: value,
+      },
+    }))
   }
 
   return (
