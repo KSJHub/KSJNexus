@@ -1,4 +1,4 @@
-import { Clipboard, Code2, ExternalLink, MessageSquareText } from 'lucide-react'
+import { Clipboard, Code2, ExternalLink, Globe, MessageSquareText } from 'lucide-react'
 import { useState } from 'react'
 import type { CaptureItem } from '../../types/capture'
 import type { Project } from '../../data/projects'
@@ -23,14 +23,17 @@ function buildChatGptUpdate(project: Project, items: CaptureItem[]) {
   return [
     `KSJ Nexus Update`,
     `Project: ${project.name}`,
+    `Description: ${project.description}`,
     `Repository: ${project.repository}`,
     `Workspace: ${project.workspace}`,
+    `Website: ${project.websiteUrl || 'Not set'}`,
+    `Notes: ${project.notes}`,
     '',
     'Latest captures:',
     latestItems || '- No captures yet.',
     '',
     'Next action:',
-    'Use this project context to continue from the current Nexus state.',
+    'Use this project profile and capture context to continue the current work.',
   ].join('\n')
 }
 
@@ -59,6 +62,16 @@ export function ProjectActions({ project, items }: ProjectActionsProps) {
     setFeedback({ kind: 'success', message: `Opening ${project.repository}.` })
   }
 
+  const openWebsite = async () => {
+    if (!project.websiteUrl) {
+      setFeedback({ kind: 'warning', message: 'Website URL is not set for this project.' })
+      return
+    }
+
+    await window.nexusDesktop?.openExternal(project.websiteUrl)
+    setFeedback({ kind: 'success', message: `Opening ${project.name} website.` })
+  }
+
   const openChatGpt = async () => {
     await window.nexusDesktop?.openExternal(project.chatGptUrl)
     setFeedback({ kind: 'success', message: 'Opening ChatGPT.' })
@@ -66,20 +79,21 @@ export function ProjectActions({ project, items }: ProjectActionsProps) {
 
   const copyChatGptUpdate = async () => {
     await window.nexusDesktop?.copyText(buildChatGptUpdate(project, items))
-    setFeedback({ kind: 'success', message: 'Project update copied for ChatGPT.' })
+    setFeedback({ kind: 'success', message: 'Project profile copied for ChatGPT.' })
   }
 
   return (
     <section className="mini-panel project-actions">
       <div className="section-heading">
         <span>Actions</span>
-        <small>launch work</small>
+        <small>profile tools</small>
       </div>
       <div className="action-grid">
         <button onClick={openVsCode} type="button"><Code2 size={14} /> VS Code</button>
         <button onClick={openGitHub} type="button"><ExternalLink size={14} /> GitHub</button>
+        <button onClick={openWebsite} type="button"><Globe size={14} /> Website</button>
         <button onClick={openChatGpt} type="button"><MessageSquareText size={14} /> ChatGPT</button>
-        <button onClick={copyChatGptUpdate} type="button"><Clipboard size={14} /> Copy update</button>
+        <button onClick={copyChatGptUpdate} type="button"><Clipboard size={14} /> Copy profile</button>
       </div>
       <p className={`action-feedback ${feedback.kind}`}>{feedback.message}</p>
     </section>
