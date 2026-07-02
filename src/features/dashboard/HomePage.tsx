@@ -3,7 +3,6 @@ import { useEffect, useMemo, useState } from 'react'
 import { CapturePanel } from '../capture/CapturePanel'
 import { InboxList } from '../inbox/InboxList'
 import type { InboxKindFilter, InboxScope } from '../inbox/inbox-filters'
-import { ProfileManager } from '../projects/ProfileManager'
 import { ProjectActions } from '../projects/ProjectActions'
 import { RepoStatusPanel } from '../status/RepoStatusPanel'
 import { projects as defaultProjects } from '../../data/projects'
@@ -45,7 +44,7 @@ function createTimelineEvent(type: TimelineEventType, title: string, projectId: 
 }
 
 export function HomePage() {
-  const [profiles, setProfiles] = useState<ProjectProfile[]>(() => loadProfiles())
+  const [profiles] = useState<ProjectProfile[]>(() => loadProfiles())
   const [activeProjectId, setActiveProjectId] = useState('ksj-nexus')
   const [captures, setCaptures] = useState<CaptureItem[]>(() => loadCaptures())
   const [, setTimeline] = useState<TimelineEvent[]>([])
@@ -64,13 +63,6 @@ export function HomePage() {
   useEffect(() => {
     saveCaptures(captures)
   }, [captures])
-
-  const saveProfile = (profile: ProjectProfile) => {
-    const updatedProfiles = profiles.map((project) => (project.id === profile.id ? profile : project))
-    setProfiles(updatedProfiles)
-    window.localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(updatedProfiles))
-    addTimelineEvent(createTimelineEvent('project', `Saved ${profile.name} profile`, profile.id, profile.name))
-  }
 
   const addTimelineEvent = (event: TimelineEvent) => {
     setTimeline((currentEvents) => [event, ...currentEvents].slice(0, 30))
@@ -178,10 +170,10 @@ export function HomePage() {
 
         <CapturePanel activeProjectId={activeProjectId} onCapture={handleCapture} />
 
-        <section className="workspace-manager-grid">
+        <section className="focus-grid">
           <section className="recent-flow">
             <div className="companion-section-label">
-              <span>Recent activity</span>
+              <span>Recent</span>
               <small>{latestItems.length} latest</small>
             </div>
             <div className="recent-list">
@@ -192,14 +184,12 @@ export function HomePage() {
                   <div className="recent-item" key={item.id}>
                     <span>{item.kind}</span>
                     <strong>{item.text}</strong>
-                    <small>{item.projectName}</small>
                   </div>
                 ))
               )}
             </div>
           </section>
           <RepoStatusPanel project={activeProject} />
-          <ProfileManager project={activeProject} onSave={saveProfile} />
         </section>
 
         <ProjectActions items={captures} project={activeProject} />
