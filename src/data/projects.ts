@@ -1,80 +1,96 @@
-export type Project = {
-  id: string
-  name: string
-  description: string
-  icon: string
-  repository: string
-  repositoryUrl: string
-  workspace: string
-  workspacePath: string
-  chatGptUrl: string
-}
+import type { ProjectProfile } from '../types/project-profile'
 
-export const projects: Project[] = [
+export type Project = ProjectProfile
+
+export const projects: ProjectProfile[] = [
   {
     id: 'ksj-nexus',
     name: 'KSJ Nexus',
     description: 'Desktop companion, capture engine and project context',
     icon: '◆',
+    color: '#00d4ff',
     repository: 'KSJHub/KSJNexus',
     repositoryUrl: 'https://github.com/KSJHub/KSJNexus',
     workspace: 'KSJ Nexus',
     workspacePath: 'C:\\Users\\Morgz\\OneDrive\\KSJ HUB\\KSJ Hub\\KSJ Nexus',
     chatGptUrl: 'https://chatgpt.com/',
+    websiteUrl: 'https://ksjhub.github.io/KSJNexus/',
+    discordUrl: '',
+    notes: 'Core command companion for KSJ work.',
   },
   {
     id: 'ksj-digital',
     name: 'KSJ Digital',
     description: 'Websites, systems, client tools',
     icon: '◈',
+    color: '#38bdf8',
     repository: 'KSJHub/KSJ-Digital',
     repositoryUrl: 'https://github.com/KSJHub/KSJ-Digital',
     workspace: 'KSJ Digital',
-    workspacePath: '',
+    workspacePath: 'C:\\Users\\Morgz\\OneDrive\\KSJ HUB\\KSJ Hub\\KSJ Digital',
     chatGptUrl: 'https://chatgpt.com/',
+    websiteUrl: 'https://ksjdigital.co.uk',
+    discordUrl: '',
+    notes: 'Main digital services and client systems brand.',
   },
   {
     id: 'ksj-diamond-gaming',
     name: 'KSJ Diamond Gaming',
     description: 'Streaming, content, brand assets',
     icon: '◇',
+    color: '#22d3ee',
     repository: 'KSJHub/KSJ-Diamond-Gaming',
     repositoryUrl: 'https://github.com/KSJHub/KSJ-Diamond-Gaming',
     workspace: 'KSJ Diamond Gaming',
     workspacePath: '',
     chatGptUrl: 'https://chatgpt.com/',
+    websiteUrl: '',
+    discordUrl: '',
+    notes: 'Personal gaming identity for SYCO MORGAN.',
   },
   {
     id: 'twotonetaj',
     name: 'TwoToneTaj',
     description: 'Community website and content',
     icon: '🐉',
+    color: '#22c55e',
     repository: 'KSJDiamondGaming/TwoToneTaj',
     repositoryUrl: 'https://github.com/KSJDiamondGaming/TwoToneTaj',
     workspace: 'TwoToneTaj',
-    workspacePath: '',
+    workspacePath: 'C:\\Users\\Morgz\\OneDrive\\KSJ HUB\\KSJ Digital\\TwoToneTaj',
     chatGptUrl: 'https://chatgpt.com/',
+    websiteUrl: 'http://localhost:5173/',
+    discordUrl: '',
+    notes: 'TwoToneTaj community site and creator brand.',
   },
   {
     id: 'goliath',
     name: 'Goliath',
     description: 'Automation, tickets, deployment tools',
     icon: '⚙',
+    color: '#a78bfa',
     repository: 'KSJHub/Goliath',
     repositoryUrl: 'https://github.com/KSJHub/Goliath',
     workspace: 'Goliath',
     workspacePath: '',
     chatGptUrl: 'https://chatgpt.com/',
+    websiteUrl: '',
+    discordUrl: '',
+    notes: 'Automation and operational systems.',
   },
   {
     id: 'personal',
     name: 'Personal',
     description: 'Private notes, reminders and loose ideas',
     icon: '□',
+    color: '#94a3b8',
     repository: 'Not linked yet',
     repositoryUrl: 'https://github.com/KSJHub',
     workspace: 'Personal',
     workspacePath: '',
     chatGptUrl: 'https://chatgpt.com/',
+    websiteUrl: '',
+    discordUrl: '',
+    notes: 'General personal captures and reminders.',
   },
 ]
