@@ -5,6 +5,7 @@ import { InboxList } from '../inbox/InboxList'
 import type { InboxKindFilter, InboxScope } from '../inbox/inbox-filters'
 import { ProjectActions } from '../projects/ProjectActions'
 import { RepoStatusPanel } from '../status/RepoStatusPanel'
+import { WorkspaceControls } from '../workspace/WorkspaceControls'
 import { projects as defaultProjects } from '../../data/projects'
 import { loadCaptures, saveCaptures } from '../../services/storage/capture-storage'
 import type { CaptureItem } from '../../types/capture'
@@ -190,6 +191,7 @@ export function HomePage() {
             </div>
           </section>
           <RepoStatusPanel project={activeProject} />
+          <WorkspaceControls project={activeProject} />
         </section>
 
         <ProjectActions items={captures} project={activeProject} />
