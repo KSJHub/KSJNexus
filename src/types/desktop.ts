@@ -16,13 +16,18 @@ export type DesktopActionResult = {
   error?: string
   pinned?: boolean
   expanded?: boolean
+  running?: boolean
 }
 
 export type NexusDesktopApi = {
   copyText: (text: string) => Promise<DesktopActionResult>
   getGitStatus: (workspacePath: string) => Promise<GitStatusResult>
   openExternal: (url: string) => Promise<DesktopActionResult>
+  openFolder: (workspacePath: string) => Promise<DesktopActionResult>
+  openTerminal: (workspacePath: string) => Promise<DesktopActionResult>
   openWorkspace: (workspacePath: string) => Promise<DesktopActionResult>
+  startDevServer: (workspacePath: string) => Promise<DesktopActionResult>
+  stopDevServer: () => Promise<DesktopActionResult>
   windowClose: () => Promise<DesktopActionResult>
   windowMinimise: () => Promise<DesktopActionResult>
   windowToggleAlwaysOnTop: () => Promise<DesktopActionResult>
