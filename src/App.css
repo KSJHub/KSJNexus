@@ -55,7 +55,9 @@ p,
 .repo-status-error,
 .repo-status-grid small,
 .repo-status-grid em,
-.workspace-feedback {
+.workspace-feedback,
+.health-error,
+.health-grid small {
   color: var(--muted);
 }
 
@@ -74,7 +76,8 @@ p,
 .capture-options button,
 .action-grid button,
 .repo-status-panel button,
-.workspace-control-grid button {
+.workspace-control-grid button,
+.project-health-panel button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -104,7 +107,7 @@ p,
   min-height: 0;
   overflow: hidden;
   display: grid;
-  grid-template-rows: 82px 198px 1fr 138px 30px;
+  grid-template-rows: 82px 188px 1fr 138px 30px;
   gap: 10px;
   padding: 12px;
 }
@@ -114,7 +117,8 @@ p,
 .recent-flow,
 .project-actions,
 .repo-status-panel,
-.workspace-controls-panel {
+.workspace-controls-panel,
+.project-health-panel {
   min-width: 0;
   min-height: 0;
   border-radius: 18px;
@@ -177,7 +181,8 @@ select {
 .recent-flow,
 .project-actions,
 .repo-status-panel,
-.workspace-controls-panel {
+.workspace-controls-panel,
+.project-health-panel {
   display: grid;
   gap: 10px;
   padding: 13px;
@@ -185,19 +190,23 @@ select {
 
 .quick-note,
 .repo-status-panel,
-.workspace-controls-panel {
+.workspace-controls-panel,
+.project-health-panel {
   align-content: start;
 }
 
 .focus-grid {
   min-height: 0;
   display: grid;
-  grid-template-columns: minmax(0, 0.7fr) minmax(0, 1fr) minmax(0, 0.9fr);
   gap: 10px;
 }
 
+.intelligence-grid {
+  grid-template-columns: minmax(0, 0.65fr) minmax(0, 0.9fr) minmax(0, 0.9fr) minmax(0, 0.8fr);
+}
+
 textarea {
-  min-height: 92px;
+  min-height: 86px;
   resize: none;
   padding: 12px;
   line-height: 1.5;
@@ -294,13 +303,15 @@ button:focus {
   white-space: nowrap;
 }
 
-.repo-status-grid {
+.repo-status-grid,
+.health-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
 }
 
-.repo-status-grid span {
+.repo-status-grid span,
+.health-grid span {
   min-width: 0;
   display: grid;
   gap: 3px;
@@ -309,7 +320,8 @@ button:focus {
   background: rgba(5, 8, 17, 0.45);
 }
 
-.repo-status-grid strong {
+.repo-status-grid strong,
+.health-grid strong {
   overflow: hidden;
   color: var(--strong);
   font-size: 0.76rem;
@@ -318,7 +330,8 @@ button:focus {
 }
 
 .repo-status-grid small,
-.repo-status-grid em {
+.repo-status-grid em,
+.health-grid small {
   font-size: 0.64rem;
   font-style: normal;
 }
@@ -328,7 +341,8 @@ button:focus {
 }
 
 .repo-status-error,
-.workspace-feedback {
+.workspace-feedback,
+.health-error {
   font-size: 0.72rem;
 }
 
@@ -338,7 +352,8 @@ button:focus {
   gap: 8px;
 }
 
-.workspace-control-grid button {
+.workspace-control-grid button,
+.project-health-panel button {
   gap: 7px;
   min-height: 36px;
   border-radius: 12px;
@@ -402,17 +417,19 @@ p {
 
 @media (max-width: 790px) {
   .companion-workspace.simplified {
-    grid-template-rows: 78px 198px 1fr 170px 30px;
+    grid-template-rows: 78px 190px 1fr 170px 30px;
   }
 
   .project-strip,
-  .focus-grid {
+  .focus-grid,
+  .intelligence-grid {
     grid-template-columns: 1fr;
   }
 
   .connection-status span:nth-child(n + 3),
   .repo-status-panel,
-  .workspace-controls-panel {
+  .workspace-controls-panel,
+  .project-health-panel {
     display: none;
   }
 
