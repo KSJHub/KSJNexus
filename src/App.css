@@ -83,6 +83,17 @@ p,
   border-radius: 10px;
 }
 
+.window-actions button.active {
+  color: #001018;
+  background: var(--accent);
+}
+
+.window-actions button.danger:hover {
+  border-color: rgba(248, 113, 113, 0.55);
+  color: #fecaca;
+  background: rgba(248, 113, 113, 0.14);
+}
+
 .companion-workspace.simplified {
   min-height: 0;
   overflow: hidden;
