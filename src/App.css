@@ -68,7 +68,8 @@ p,
 .window-actions button,
 .capture-row button,
 .capture-options button,
-.action-grid button {
+.action-grid button,
+.save-profile-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -98,7 +99,7 @@ p,
   min-height: 0;
   overflow: hidden;
   display: grid;
-  grid-template-rows: 86px 210px 1fr 142px 30px;
+  grid-template-rows: 86px 200px 1fr 142px 30px;
   gap: 10px;
   padding: 12px;
 }
@@ -106,7 +107,8 @@ p,
 .project-strip,
 .quick-note,
 .recent-flow,
-.project-actions {
+.project-actions,
+.profile-manager {
   min-width: 0;
   min-height: 0;
   border-radius: 18px;
@@ -120,12 +122,14 @@ p,
   padding: 12px;
 }
 
-.project-strip label {
+.project-strip label,
+.profile-fields label {
   display: grid;
-  gap: 7px;
+  gap: 6px;
 }
 
 .project-strip label span,
+.profile-fields label span,
 .section-heading span,
 .companion-section-label span {
   color: var(--strong);
@@ -133,6 +137,7 @@ p,
 }
 
 .project-strip select,
+.profile-fields input,
 textarea,
 select {
   width: 100%;
@@ -143,8 +148,9 @@ select {
   font: inherit;
 }
 
-.project-strip select {
-  min-height: 38px;
+.project-strip select,
+.profile-fields input {
+  min-height: 36px;
   padding: 0 10px;
 }
 
@@ -167,18 +173,46 @@ select {
 
 .quick-note,
 .recent-flow,
-.project-actions {
+.project-actions,
+.profile-manager {
   display: grid;
   gap: 10px;
   padding: 13px;
 }
 
-.quick-note {
+.quick-note,
+.profile-manager {
   align-content: start;
 }
 
+.workspace-manager-grid {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 10px;
+}
+
+.profile-fields {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.profile-fields label span {
+  font-size: 0.68rem;
+}
+
+.save-profile-button {
+  gap: 7px;
+  min-height: 36px;
+  border-radius: 12px;
+  font: inherit;
+  font-size: 0.74rem;
+}
+
 textarea {
-  min-height: 96px;
+  min-height: 88px;
   resize: none;
   padding: 12px;
   line-height: 1.5;
@@ -192,6 +226,7 @@ textarea {
 
 textarea:focus,
 select:focus,
+input:focus,
 button:focus {
   outline: 2px solid rgba(0, 212, 255, 0.22);
   border-color: rgba(0, 212, 255, 0.48);
@@ -251,10 +286,10 @@ button:focus {
 
 .recent-item {
   display: grid;
-  grid-template-columns: 64px 1fr auto;
+  grid-template-columns: 58px 1fr auto;
   gap: 8px;
   align-items: center;
-  min-height: 34px;
+  min-height: 32px;
   padding: 7px 9px;
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.035);
@@ -262,21 +297,21 @@ button:focus {
 
 .recent-item span {
   color: var(--accent);
-  font-size: 0.68rem;
+  font-size: 0.66rem;
   text-transform: uppercase;
 }
 
 .recent-item strong {
   overflow: hidden;
   color: var(--strong);
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .recent-item small {
   color: var(--muted);
-  font-size: 0.68rem;
+  font-size: 0.66rem;
 }
 
 .project-actions {
@@ -335,14 +370,16 @@ p {
 
 @media (max-width: 790px) {
   .companion-workspace.simplified {
-    grid-template-rows: 80px 210px 1fr 170px 30px;
+    grid-template-rows: 80px 200px 1fr 170px 30px;
   }
 
-  .project-strip {
+  .project-strip,
+  .workspace-manager-grid {
     grid-template-columns: 1fr;
   }
 
-  .connection-status span:nth-child(n + 3) {
+  .connection-status span:nth-child(n + 3),
+  .profile-manager {
     display: none;
   }
 
