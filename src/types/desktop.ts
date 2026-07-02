@@ -11,6 +11,25 @@ export type GitStatusResult = {
   }
 }
 
+export type ProjectScanResult = {
+  ok: boolean
+  error?: string
+  packageManager?: string
+  framework?: string
+  language?: string
+  hasReadme?: boolean
+  hasGit?: boolean
+  hasEnv?: boolean
+  hasDocker?: boolean
+  hasWorkflows?: boolean
+  scripts?: {
+    dev?: string
+    build?: string
+    lint?: string
+    test?: string
+  }
+}
+
 export type DesktopActionResult = {
   ok: boolean
   error?: string
@@ -22,6 +41,7 @@ export type DesktopActionResult = {
 export type NexusDesktopApi = {
   copyText: (text: string) => Promise<DesktopActionResult>
   getGitStatus: (workspacePath: string) => Promise<GitStatusResult>
+  getProjectScan: (workspacePath: string) => Promise<ProjectScanResult>
   openExternal: (url: string) => Promise<DesktopActionResult>
   openFolder: (workspacePath: string) => Promise<DesktopActionResult>
   openTerminal: (workspacePath: string) => Promise<DesktopActionResult>
