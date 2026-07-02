@@ -1,6 +1,6 @@
 import { app, BrowserWindow, Menu, clipboard, dialog, ipcMain, shell } from 'electron'
 import { execFile, spawn } from 'node:child_process'
-import { existsSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import path from 'node:path'
 
 const DEV_URL = 'http://localhost:5174/KSJNexus/'
@@ -30,6 +30,55 @@ function getMainWindow() {
 function isValidWorkspacePath(workspacePath) {
   const targetPath = String(workspacePath ?? '')
   return targetPath && existsSync(targetPath) ? targetPath : null
+}
+
+function hasFile(workspacePath, filePath) {
+  return existsSync(path.join(workspacePath, filePath))
+}
+
+function detectPackageManager(workspacePath) {
+  if (hasFile(workspacePath, 'pnpm-lock.yaml')) return 'pnpm'
+  if (hasFile(workspacePath, 'yarn.lock')) return 'yarn'
+  if (hasFile(workspacePath, 'bun.lockb')) return 'bun'
+  if (hasFile(workspacePath, 'package-lock.json')) return 'npm'
+  return hasFile(workspacePath, 'package.json') ? 'npm' : 'unknown'
+}
+
+function scanPackageJson(workspacePath) {
+  const packageJsonPath = path.join(workspacePath, 'package.json')
+
+  if (!existsSync(packageJsonPath)) {
+    return { scripts: {}, framework: 'unknown', language: 'unknown' }
+  }
+
+  try {
+    const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8'))
+    const dependencies = {
+      ...packageJson.dependencies,
+      ...packageJson.devDependencies,
+    }
+
+    let framework = 'Node'
+    if (dependencies.electron) framework = 'Electron'
+    else if (dependencies.next) framework = 'Next.js'
+    else if (dependencies.vite) framework = 'Vite'
+    else if (dependencies.react) framework = 'React'
+
+    const language = dependencies.typescript || hasFile(workspacePath, 'tsconfig.json') ? 'TypeScript' : 'JavaScript'
+
+    return {
+      scripts: {
+        dev: packageJson.scripts?.dev,
+        build: packageJson.scripts?.build,
+        lint: packageJson.scripts?.lint,
+        test: packageJson.scripts?.test,
+      },
+      framework,
+      language,
+    }
+  } catch {
+    return { scripts: {}, framework: 'unknown', language: 'unknown' }
+  }
 }
 
 function runGit(workspacePath, args) {
@@ -116,6 +165,29 @@ function createWindow() {
 ipcMain.handle('nexus:copy-text', (_event, text) => {
   clipboard.writeText(String(text ?? ''))
   return { ok: true }
+})
+
+ipcMain.handle('nexus:get-project-scan', async (_event, workspacePath) => {
+  const targetPath = isValidWorkspacePath(workspacePath)
+
+  if (!targetPath) {
+    return { ok: false, error: 'Workspace path is not set or does not exist.' }
+  }
+
+  const packageScan = scanPackageJson(targetPath)
+
+  return {
+    ok: true,
+    packageManager: detectPackageManager(targetPath),
+    framework: packageScan.framework,
+    language: packageScan.language,
+    hasReadme: hasFile(targetPath, 'README.md') || hasFile(targetPath, 'readme.md'),
+    hasGit: hasFile(targetPath, '.git'),
+    hasEnv: hasFile(targetPath, '.env') || hasFile(targetPath, '.env.example'),
+    hasDocker: hasFile(targetPath, 'Dockerfile') || hasFile(targetPath, 'docker-compose.yml'),
+    hasWorkflows: hasFile(targetPath, '.github/workflows'),
+    scripts: packageScan.scripts,
+  }
 })
 
 ipcMain.handle('nexus:get-git-status', async (_event, workspacePath) => {
