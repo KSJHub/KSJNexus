@@ -1,4 +1,4 @@
-import { Clipboard, Code2, ExternalLink, Globe, MessageSquareText } from 'lucide-react'
+import { Clipboard, Code2, ExternalLink, Globe, MessageSquareText, Rocket } from 'lucide-react'
 import { useState } from 'react'
 import type { CaptureItem } from '../../types/capture'
 import type { Project } from '../../data/projects'
@@ -82,6 +82,23 @@ export function ProjectActions({ project, items }: ProjectActionsProps) {
     setFeedback({ kind: 'success', message: 'Project profile copied for ChatGPT.' })
   }
 
+  const openWorkspaceBundle = async () => {
+    const workspaceResult = await window.nexusDesktop?.openWorkspace(project.workspacePath)
+    await window.nexusDesktop?.openExternal(project.repositoryUrl)
+    await window.nexusDesktop?.openExternal(project.chatGptUrl)
+
+    if (project.websiteUrl) {
+      await window.nexusDesktop?.openExternal(project.websiteUrl)
+    }
+
+    if (workspaceResult?.ok === false) {
+      setFeedback({ kind: 'warning', message: `Workspace launched, but VS Code path needs setting for ${project.name}.` })
+      return
+    }
+
+    setFeedback({ kind: 'success', message: `${project.name} workspace launched.` })
+  }
+
   return (
     <section className="mini-panel project-actions">
       <div className="section-heading">
@@ -89,6 +106,7 @@ export function ProjectActions({ project, items }: ProjectActionsProps) {
         <small>profile tools</small>
       </div>
       <div className="action-grid">
+        <button className="primary-action" onClick={openWorkspaceBundle} type="button"><Rocket size={14} /> Open Workspace</button>
         <button onClick={openVsCode} type="button"><Code2 size={14} /> VS Code</button>
         <button onClick={openGitHub} type="button"><ExternalLink size={14} /> GitHub</button>
         <button onClick={openWebsite} type="button"><Globe size={14} /> Website</button>
