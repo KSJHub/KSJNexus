@@ -1,5 +1,5 @@
 import { GitBranch, RefreshCw } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import type { GitStatusResult } from '../../types/desktop'
 import type { ProjectProfile } from '../../types/project-profile'
 import '../../types/desktop'
@@ -12,16 +12,20 @@ export function RepoStatusPanel({ project }: RepoStatusPanelProps) {
   const [status, setStatus] = useState<GitStatusResult>({ ok: false, error: 'Not checked yet.' })
   const [isLoading, setIsLoading] = useState(false)
 
-  const refreshStatus = async () => {
+  const refreshStatus = useCallback(async () => {
     setIsLoading(true)
     const result = await window.nexusDesktop?.getGitStatus(project.workspacePath)
     setStatus(result ?? { ok: false, error: 'Desktop bridge is not available.' })
     setIsLoading(false)
-  }
+  }, [project.workspacePath])
 
   useEffect(() => {
-    void refreshStatus()
-  }, [project.id, project.workspacePath])
+    const timeoutId = window.setTimeout(() => {
+      void refreshStatus()
+    }, 0)
+
+    return () => window.clearTimeout(timeoutId)
+  }, [refreshStatus])
 
   return (
     <section className="repo-status-panel">
