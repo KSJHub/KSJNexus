@@ -1,4 +1,4 @@
-import { Bot, Code2, Folder, Home, Inbox, Maximize2, Minus, Pin, Settings, Timer } from 'lucide-react'
+import { Inbox, Maximize2, Minus, Pin, Send, X } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { CapturePanel } from '../capture/CapturePanel'
 import { InboxList } from '../inbox/InboxList'
@@ -6,7 +6,6 @@ import type { InboxKindFilter, InboxScope } from '../inbox/inbox-filters'
 import { ProjectActions } from '../projects/ProjectActions'
 import { ProjectContext } from '../projects/ProjectContext'
 import { ProjectSwitcher } from '../projects/ProjectSwitcher'
-import { TimelinePanel } from '../timeline/TimelinePanel'
 import { projects } from '../../data/projects'
 import { loadCaptures, saveCaptures } from '../../services/storage/capture-storage'
 import type { CaptureItem } from '../../types/capture'
@@ -23,20 +22,10 @@ function createTimelineEvent(type: TimelineEventType, title: string, projectId: 
   }
 }
 
-const navigationItems = [
-  { label: 'Home', icon: Home },
-  { label: 'Inbox', icon: Inbox },
-  { label: 'Timeline', icon: Timer },
-  { label: 'Projects', icon: Folder },
-  { label: 'VS Code', icon: Code2 },
-  { label: 'ChatGPT', icon: Bot },
-  { label: 'Settings', icon: Settings },
-]
-
 export function HomePage() {
   const [activeProjectId, setActiveProjectId] = useState('ksj-nexus')
   const [captures, setCaptures] = useState<CaptureItem[]>(() => loadCaptures())
-  const [timeline, setTimeline] = useState<TimelineEvent[]>([])
+  const [, setTimeline] = useState<TimelineEvent[]>([])
   const [inboxScope, setInboxScope] = useState<InboxScope>('project')
   const [kindFilter, setKindFilter] = useState<InboxKindFilter>('all')
   const [search, setSearch] = useState('')
@@ -100,66 +89,56 @@ export function HomePage() {
   })
 
   return (
-    <section className="nexus-desktop" id="home">
+    <section className="nexus-desktop companion-mode" id="home">
       <header className="nexus-titlebar">
         <div className="nexus-brand">
           <span className="brand-diamond">◆</span>
           <strong>KSJ Nexus</strong>
+          <small>Companion</small>
         </div>
         <div className="window-actions" aria-label="Window actions">
           <button type="button" title="Pin on top"><Pin size={14} /></button>
           <button type="button" title="Minimise"><Minus size={14} /></button>
           <button type="button" title="Expand"><Maximize2 size={14} /></button>
+          <button type="button" title="Close"><X size={14} /></button>
         </div>
       </header>
 
-      <div className="nexus-body">
-        <aside className="nexus-sidebar">
-          <nav>
-            {navigationItems.map((item, index) => {
-              const Icon = item.icon
-              return (
-                <button className={index === 0 ? 'active' : ''} key={item.label} type="button">
-                  <Icon size={17} />
-                  <span>{item.label}</span>
-                </button>
-              )
-            })}
-          </nav>
-          <div className="sidebar-footer">
-            <span className="footer-diamond">◇</span>
-            <strong>KSJ Nexus</strong>
-            <p>All your projects. All your context. One place.</p>
+      <main className="companion-workspace">
+        <section className="companion-topline">
+          <ProjectSwitcher activeProjectId={activeProjectId} onChange={handleProjectChange} />
+          <ProjectContext items={captures} project={activeProject} />
+        </section>
+
+        <section className="companion-mainline">
+          <CapturePanel activeProjectId={activeProjectId} onCapture={handleCapture} />
+          <ProjectActions items={captures} project={activeProject} />
+        </section>
+
+        <section className="companion-inbox">
+          <div className="companion-section-label">
+            <Inbox size={15} />
+            <span>Inbox</span>
+            <small>{visibleCaptures.length} active</small>
           </div>
-        </aside>
+          <InboxList
+            items={visibleCaptures}
+            kindFilter={kindFilter}
+            onArchive={handleArchive}
+            onKindFilterChange={setKindFilter}
+            onPin={handlePin}
+            onScopeChange={setInboxScope}
+            onSearchChange={setSearch}
+            scope={inboxScope}
+            search={search}
+          />
+        </section>
 
-        <main className="nexus-workspace">
-          <section className="workspace-top">
-            <ProjectSwitcher activeProjectId={activeProjectId} onChange={handleProjectChange} />
-            <ProjectContext items={captures} project={activeProject} />
-          </section>
-
-          <section className="workspace-middle">
-            <ProjectActions items={captures} project={activeProject} />
-            <CapturePanel activeProjectId={activeProjectId} onCapture={handleCapture} />
-          </section>
-
-          <section className="workspace-bottom">
-            <InboxList
-              items={visibleCaptures}
-              kindFilter={kindFilter}
-              onArchive={handleArchive}
-              onKindFilterChange={setKindFilter}
-              onPin={handlePin}
-              onScopeChange={setInboxScope}
-              onSearchChange={setSearch}
-              scope={inboxScope}
-              search={search}
-            />
-            <TimelinePanel events={timeline} />
-          </section>
-        </main>
-      </div>
+        <footer className="companion-footer">
+          <span><Send size={13} /> Capture first. Organise later.</span>
+          <span>{activeProject.name}</span>
+        </footer>
+      </main>
     </section>
   )
 }
