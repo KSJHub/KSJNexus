@@ -107,8 +107,8 @@ p,
   min-height: 0;
   overflow: hidden;
   display: grid;
-  grid-template-rows: 82px 188px 1fr 138px 30px;
-  gap: 10px;
+  grid-template-rows: 78px 190px 1fr 130px 28px;
+  gap: 9px;
   padding: 12px;
 }
 
@@ -127,8 +127,8 @@ p,
 
 .project-strip {
   display: grid;
-  grid-template-columns: minmax(220px, 0.8fr) 1fr;
-  gap: 12px;
+  grid-template-columns: minmax(210px, 0.9fr) 1fr;
+  gap: 10px;
   padding: 12px;
 }
 
@@ -170,11 +170,11 @@ select {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  min-height: 28px;
+  min-height: 27px;
   padding: 0 8px;
   border-radius: 999px;
   background: rgba(0, 212, 255, 0.07);
-  font-size: 0.72rem;
+  font-size: 0.7rem;
 }
 
 .quick-note,
@@ -184,8 +184,8 @@ select {
 .workspace-controls-panel,
 .project-health-panel {
   display: grid;
-  gap: 10px;
-  padding: 13px;
+  gap: 9px;
+  padding: 12px;
 }
 
 .quick-note,
@@ -195,18 +195,30 @@ select {
   align-content: start;
 }
 
-.focus-grid {
+.small-focus-grid {
   min-height: 0;
   display: grid;
-  gap: 10px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 9px;
 }
 
-.intelligence-grid {
-  grid-template-columns: minmax(0, 0.65fr) minmax(0, 0.9fr) minmax(0, 0.9fr) minmax(0, 0.8fr);
+.expanded-tools {
+  display: none;
+}
+
+.expanded-mode .expanded-tools {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+}
+
+.expanded-mode .companion-workspace.simplified {
+  grid-template-rows: 78px 170px 1fr 130px 130px 28px;
 }
 
 textarea {
-  min-height: 86px;
+  min-height: 92px;
   resize: none;
   padding: 12px;
   line-height: 1.5;
@@ -232,10 +244,10 @@ button:focus {
 }
 
 .capture-options button {
-  min-height: 29px;
+  min-height: 28px;
   padding: 0 9px;
   border-radius: 999px;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   text-transform: capitalize;
 }
 
@@ -250,21 +262,21 @@ button:focus {
 
 .capture-row button {
   gap: 7px;
-  min-height: 38px;
+  min-height: 37px;
   padding: 0 13px;
   border-radius: 13px;
 }
 
 .active-project-label {
   flex: 1;
-  min-height: 38px;
+  min-height: 37px;
   display: inline-flex;
   align-items: center;
   padding: 0 10px;
   border-radius: 13px;
   color: var(--muted);
   background: rgba(5, 8, 17, 0.52);
-  font-size: 0.76rem;
+  font-size: 0.74rem;
 }
 
 .companion-section-label {
@@ -274,7 +286,7 @@ button:focus {
 .recent-list {
   min-height: 0;
   display: grid;
-  gap: 7px;
+  gap: 6px;
   overflow: hidden;
 }
 
@@ -283,22 +295,22 @@ button:focus {
   grid-template-columns: 54px 1fr;
   gap: 8px;
   align-items: center;
-  min-height: 32px;
-  padding: 7px 9px;
+  min-height: 29px;
+  padding: 6px 9px;
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.035);
 }
 
 .recent-item span {
   color: var(--accent);
-  font-size: 0.66rem;
+  font-size: 0.64rem;
   text-transform: uppercase;
 }
 
 .recent-item strong {
   overflow: hidden;
   color: var(--strong);
-  font-size: 0.76rem;
+  font-size: 0.74rem;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -307,7 +319,7 @@ button:focus {
 .health-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
+  gap: 7px;
 }
 
 .repo-status-grid span,
@@ -315,7 +327,7 @@ button:focus {
   min-width: 0;
   display: grid;
   gap: 3px;
-  padding: 8px;
+  padding: 7px;
   border-radius: 12px;
   background: rgba(5, 8, 17, 0.45);
 }
@@ -324,7 +336,7 @@ button:focus {
 .health-grid strong {
   overflow: hidden;
   color: var(--strong);
-  font-size: 0.76rem;
+  font-size: 0.72rem;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -332,7 +344,7 @@ button:focus {
 .repo-status-grid small,
 .repo-status-grid em,
 .health-grid small {
-  font-size: 0.64rem;
+  font-size: 0.62rem;
   font-style: normal;
 }
 
@@ -343,7 +355,7 @@ button:focus {
 .repo-status-error,
 .workspace-feedback,
 .health-error {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
 }
 
 .workspace-control-grid {
@@ -355,10 +367,10 @@ button:focus {
 .workspace-control-grid button,
 .project-health-panel button {
   gap: 7px;
-  min-height: 36px;
+  min-height: 34px;
   border-radius: 12px;
   font: inherit;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
 }
 
 .project-actions {
@@ -371,27 +383,27 @@ button:focus {
 
 .action-grid {
   display: grid;
-  grid-template-columns: 1.4fr repeat(5, minmax(0, 1fr));
-  gap: 8px;
+  grid-template-columns: 1.35fr repeat(5, minmax(0, 1fr));
+  gap: 7px;
 }
 
 .action-grid button {
-  gap: 7px;
-  min-height: 38px;
+  gap: 6px;
+  min-height: 36px;
   border-radius: 13px;
   font: inherit;
-  font-size: 0.72rem;
+  font-size: 0.68rem;
 }
 
 .action-feedback {
-  min-height: 32px;
+  min-height: 30px;
   display: flex;
   align-items: center;
-  padding: 8px 10px;
+  padding: 7px 10px;
   border-radius: 12px;
   color: var(--muted);
   background: rgba(5, 8, 17, 0.52);
-  font-size: 0.72rem;
+  font-size: 0.7rem;
 }
 
 .compact-hidden {
@@ -401,7 +413,7 @@ button:focus {
 .companion-footer {
   justify-content: space-between;
   padding: 0 4px;
-  font-size: 0.74rem;
+  font-size: 0.72rem;
 }
 
 h1,
@@ -417,19 +429,17 @@ p {
 
 @media (max-width: 790px) {
   .companion-workspace.simplified {
-    grid-template-rows: 78px 190px 1fr 170px 30px;
+    grid-template-rows: 76px 188px 1fr 168px 28px;
   }
 
   .project-strip,
-  .focus-grid,
-  .intelligence-grid {
+  .small-focus-grid {
     grid-template-columns: 1fr;
   }
 
   .connection-status span:nth-child(n + 3),
   .repo-status-panel,
-  .workspace-controls-panel,
-  .project-health-panel {
+  .expanded-tools {
     display: none;
   }
 
