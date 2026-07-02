@@ -1,6 +1,7 @@
 import { CheckCircle2, GitBranch, Maximize2, Minus, Pin, Send, Sparkles, X } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { CapturePanel } from '../capture/CapturePanel'
+import { ProjectHealthPanel } from '../intelligence/ProjectHealthPanel'
 import { InboxList } from '../inbox/InboxList'
 import type { InboxKindFilter, InboxScope } from '../inbox/inbox-filters'
 import { ProjectActions } from '../projects/ProjectActions'
@@ -171,7 +172,7 @@ export function HomePage() {
 
         <CapturePanel activeProjectId={activeProjectId} onCapture={handleCapture} />
 
-        <section className="focus-grid">
+        <section className="focus-grid intelligence-grid">
           <section className="recent-flow">
             <div className="companion-section-label">
               <span>Recent</span>
@@ -191,6 +192,7 @@ export function HomePage() {
             </div>
           </section>
           <RepoStatusPanel project={activeProject} />
+          <ProjectHealthPanel project={activeProject} />
           <WorkspaceControls project={activeProject} />
         </section>
 
