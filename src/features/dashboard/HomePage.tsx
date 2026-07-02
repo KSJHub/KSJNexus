@@ -1,4 +1,4 @@
-import { CheckCircle2, Github, Maximize2, Minus, Pin, Send, Sparkles, X } from 'lucide-react'
+import { CheckCircle2, GitBranch, Maximize2, Minus, Pin, Send, Sparkles, X } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { CapturePanel } from '../capture/CapturePanel'
 import { InboxList } from '../inbox/InboxList'
@@ -118,7 +118,7 @@ export function HomePage() {
           </label>
           <div className="connection-status">
             <span><CheckCircle2 size={13} /> {activeItems.length} active</span>
-            <span><Github size={13} /> {activeProject.repository}</span>
+            <span><GitBranch size={13} /> {activeProject.repository}</span>
             <span><Sparkles size={13} /> ChatGPT ready</span>
           </div>
         </section>
