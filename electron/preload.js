@@ -3,6 +3,7 @@ import { contextBridge, ipcRenderer } from 'electron'
 contextBridge.exposeInMainWorld('nexusDesktop', {
   copyText: (text) => ipcRenderer.invoke('nexus:copy-text', text),
   getGitStatus: (workspacePath) => ipcRenderer.invoke('nexus:get-git-status', workspacePath),
+  getProjectScan: (workspacePath) => ipcRenderer.invoke('nexus:get-project-scan', workspacePath),
   openExternal: (url) => ipcRenderer.invoke('nexus:open-external', url),
   openFolder: (workspacePath) => ipcRenderer.invoke('nexus:open-folder', workspacePath),
   openTerminal: (workspacePath) => ipcRenderer.invoke('nexus:open-terminal', workspacePath),
