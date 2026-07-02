@@ -26,6 +26,19 @@ function getMainWindow() {
   return BrowserWindow.getFocusedWindow() ?? mainWindow
 }
 
+function runGit(workspacePath, args) {
+  return new Promise((resolve, reject) => {
+    execFile('git', ['-C', workspacePath, ...args], (error, stdout, stderr) => {
+      if (error) {
+        reject(new Error(stderr || error.message))
+        return
+      }
+
+      resolve(String(stdout).trim())
+    })
+  })
+}
+
 async function loadApp(window) {
   try {
     if (isDev) {
@@ -97,6 +110,37 @@ function createWindow() {
 ipcMain.handle('nexus:copy-text', (_event, text) => {
   clipboard.writeText(String(text ?? ''))
   return { ok: true }
+})
+
+ipcMain.handle('nexus:get-git-status', async (_event, workspacePath) => {
+  const targetPath = String(workspacePath ?? '')
+
+  if (!targetPath || !existsSync(targetPath)) {
+    return { ok: false, error: 'Workspace path is not set or does not exist.' }
+  }
+
+  try {
+    const branch = await runGit(targetPath, ['branch', '--show-current'])
+    const statusOutput = await runGit(targetPath, ['status', '--short'])
+    const lastCommit = await runGit(targetPath, ['log', '-1', '--pretty=format:%h|%s|%cr'])
+    const changedFiles = statusOutput ? statusOutput.split('\n').filter(Boolean).length : 0
+    const [hash = '', message = 'No commits yet', time = ''] = String(lastCommit).split('|')
+
+    return {
+      ok: true,
+      branch: branch || 'detached',
+      changedFiles,
+      clean: changedFiles === 0,
+      lastCommit: {
+        hash,
+        message,
+        time,
+      },
+    }
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error)
+    return { ok: false, error: message }
+  }
 })
 
 ipcMain.handle('nexus:open-external', async (_event, url) => {
