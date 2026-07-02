@@ -16,7 +16,6 @@ async function loadApp(window) {
     if (isDev) {
       log(`Loading dev server: ${DEV_URL}`)
       await window.loadURL(DEV_URL)
-      window.webContents.openDevTools({ mode: 'detach' })
       return
     }
 
@@ -43,13 +42,14 @@ function createWindow() {
   Menu.setApplicationMenu(null)
 
   mainWindow = new BrowserWindow({
-    width: 430,
-    height: 770,
-    minWidth: 360,
-    minHeight: 620,
+    width: 860,
+    height: 640,
+    minWidth: 760,
+    minHeight: 560,
     title: 'KSJ Nexus',
     backgroundColor: '#050811',
     autoHideMenuBar: true,
+    frame: false,
     show: false,
     webPreferences: {
       contextIsolation: true,
