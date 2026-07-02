@@ -51,7 +51,10 @@
 .companion-footer,
 .connection-status,
 p,
-.empty-state {
+.empty-state,
+.repo-status-error,
+.repo-status-grid small,
+.repo-status-grid em {
   color: var(--muted);
 }
 
@@ -69,7 +72,8 @@ p,
 .capture-row button,
 .capture-options button,
 .action-grid button,
-.save-profile-button {
+.save-profile-button,
+.repo-status-panel button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -99,7 +103,7 @@ p,
   min-height: 0;
   overflow: hidden;
   display: grid;
-  grid-template-rows: 86px 200px 1fr 142px 30px;
+  grid-template-rows: 82px 184px 1fr 142px 30px;
   gap: 10px;
   padding: 12px;
 }
@@ -108,7 +112,8 @@ p,
 .quick-note,
 .recent-flow,
 .project-actions,
-.profile-manager {
+.profile-manager,
+.repo-status-panel {
   min-width: 0;
   min-height: 0;
   border-radius: 18px;
@@ -174,21 +179,23 @@ select {
 .quick-note,
 .recent-flow,
 .project-actions,
-.profile-manager {
+.profile-manager,
+.repo-status-panel {
   display: grid;
   gap: 10px;
   padding: 13px;
 }
 
 .quick-note,
-.profile-manager {
+.profile-manager,
+.repo-status-panel {
   align-content: start;
 }
 
 .workspace-manager-grid {
   min-height: 0;
   display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 0.8fr) minmax(0, 1.05fr);
   gap: 10px;
 }
 
@@ -203,16 +210,54 @@ select {
   font-size: 0.68rem;
 }
 
-.save-profile-button {
+.save-profile-button,
+.repo-status-panel button {
   gap: 7px;
-  min-height: 36px;
+  min-height: 34px;
   border-radius: 12px;
   font: inherit;
-  font-size: 0.74rem;
+  font-size: 0.72rem;
+}
+
+.repo-status-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.repo-status-grid span {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+  padding: 8px;
+  border-radius: 12px;
+  background: rgba(5, 8, 17, 0.45);
+}
+
+.repo-status-grid strong {
+  overflow: hidden;
+  color: var(--strong);
+  font-size: 0.76rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.repo-status-grid small,
+.repo-status-grid em {
+  font-size: 0.64rem;
+  font-style: normal;
+}
+
+.repo-commit {
+  grid-column: 1 / -1;
+}
+
+.repo-status-error {
+  font-size: 0.72rem;
 }
 
 textarea {
-  min-height: 88px;
+  min-height: 82px;
   resize: none;
   padding: 12px;
   line-height: 1.5;
@@ -370,7 +415,7 @@ p {
 
 @media (max-width: 790px) {
   .companion-workspace.simplified {
-    grid-template-rows: 80px 200px 1fr 170px 30px;
+    grid-template-rows: 80px 190px 1fr 170px 30px;
   }
 
   .project-strip,
@@ -379,7 +424,8 @@ p {
   }
 
   .connection-status span:nth-child(n + 3),
-  .profile-manager {
+  .profile-manager,
+  .repo-status-panel {
     display: none;
   }
 
